@@ -14,7 +14,17 @@ class NoteController extends Controller
      */
     public function index()
     {
-        return view('note.index');
+        // takes all
+        // $notes = Note::query()->orderBy('created_at', 'desc')->get();
+
+        // devides into pages by 10
+        $notes = Note::query()->orderBy('created_at', 'desc')->paginate(10);
+
+        // for debug
+        // dd($notes);
+
+        // arguments for the view must be passed as an array
+        return view('note.index', ['notes' => $notes]);
     }
 
     /**
@@ -49,7 +59,7 @@ class NoteController extends Controller
         // Laravel provides root model binding functionality:
         // - system will automatically try to find based on the following ID;
         // - resolve this function by passing the instance of that model.
-        return view('note.show');
+        return view('note.show', ['note' => $note]);
     }
 
     /**
@@ -60,7 +70,7 @@ class NoteController extends Controller
      */
     public function edit(Note $note)
     {
-        return view('note.edit');
+        return view('note.edit', ['note' => $note]);
     }
 
     /**
