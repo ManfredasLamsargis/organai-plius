@@ -32,6 +32,11 @@ Follow these steps in order:
 6. You should be prompted with `You are now connected to database "organai_plius" as user "postgres".`.
 ### Install pgAdmin 4 (optional)
 For GUI of the database use [pgAdmin](https://www.pgadmin.org/) (should be installed together with PostgreSQL). You can manage the database without ever needing the command line.
+### Enable PostgreSQL PHP extentions
+1. Go where you installed php (should be `C:\php-8.4.5`).
+2. Open `php.ini` file.
+3. Uncomment `;extension=pdo_pgsql` and `;extension=pgsql`.
+4. Save changes.
 ## 3. Project setup
 1. Install [Git](https://git-scm.com/downloads) if you haven't already.
 3. Install [GitHub CLI](https://cli.github.com/) and connect to your GitHub account using command `gh auth login` (this will configure your locally installed Git).
@@ -47,6 +52,3 @@ For GUI of the database use [pgAdmin](https://www.pgadmin.org/) (should be insta
     ```
 7. Connect via provided link:
     ![](images/default-website.png)
-## Resources
-- [CRUD implementation in Laravel guide](https://kinsta.com/blog/laravel-crud/)
-- [CRUD application in Laravel 12](https://laraveldocs.com/laravel-12-crud-application-example-step-by-step-tutorial-for-beginners)
