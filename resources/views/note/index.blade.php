@@ -1,6 +1,7 @@
 <x-layout>
     <div class="note-container">
-        <a href="#" class="new-note-btn">
+        <!-- route navigates to the given page -->
+        <a href="{{ route('note.create') }}" class="new-note-btn">
             New Note
         </a>
         <div class="notes">
@@ -8,12 +9,12 @@
             @foreach ($notes as $note)
                 <div class="note">
                     <div class="note-body">
-                        <!-- display note model's note column -->
-                        {{ $note->note }}
+                        <!-- display note model's note column (Str shrinks to 30 words) -->
+                        {{ Str::words($note->note, 30) }}
                     </div>
                     <div class="note-buttons">
-                        <a href="#" class="note-edit-button">View</a>
-                        <a href="#" class="note-edit-button">Edit</a>
+                        <a href="{{ route('note.show', $note) }}" class="note-edit-button">View</a>
+                        <a href="{{ route('note.edit', $note) }}" class="note-edit-button">Edit</a>
                         <button class="note-delete-button">Delete</button>
                     </div>
                 </div>
