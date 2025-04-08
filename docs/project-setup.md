@@ -44,11 +44,18 @@ For GUI of the database use [pgAdmin](https://www.pgadmin.org/) (should be insta
 4. Run Git Bash from newly created directory.
 5. Clone the project's repository: 
     ```git
-    git clone https://github.com/ManfredasLamsargis/OrganaiPlius.git
+    git clone https://github.com/ManfredasLamsargis/organai-plius.git
     ```
-6. Run the project:
+6. Create `.env` file and paste everything from the `.env.example`.
+7. Run the project:
     ```cmd
     php artisan serve
     ```
-7. Connect via provided link:
+    - It is possible that you see errors like:
+        ```
+        No application encryption key has been specified.
+        ```
+        just use this command before running the project: `php artisan key:generate`
+
+8. Connect via provided link:
     ![](images/default-website.png)
