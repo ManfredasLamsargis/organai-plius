@@ -12,5 +12,8 @@
                 {{ $note->note }}
             </div>
         </div>
+        <div class="note-buttons">
+            <a href="{{ route('note.index') }}" class="note-cancel-button">Note List</a>
+        </div>
     </div>
 </x-layout>
