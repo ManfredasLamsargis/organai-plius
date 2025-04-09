@@ -3,6 +3,8 @@
         <h1>Create new note</h1>
         <!-- When submitting this form, route to note.store to store it in the db. -->
         <form action="{{ route('note.store') }}" method="POST" class="note">
+            <!-- Cross-side request forgery token to prevent submission of forms from other websites to your website. -->
+            @csrf
             <textarea name="note" rows="10" class="note-body" placeholder="Enter your note here"></textarea>
             <div class="note-buttons">
                 <!-- Go back to the note list. -->
