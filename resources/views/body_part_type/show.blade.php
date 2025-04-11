@@ -11,6 +11,9 @@
                 {{ $bodyPartType->expiration_period_minutes }}
             </p>
             <div class="body-part-type-buttons-container">
+                <a href="{{ route('body_part_type.index') }}">
+                    <button class="crud-button go-back" type="button">Back</button>
+                </a>
                 <a href="{{ route('body_part_type.edit', $bodyPartType) }}">
                     <button class="crud-button edit" type="button">Edit</button>
                 </a>

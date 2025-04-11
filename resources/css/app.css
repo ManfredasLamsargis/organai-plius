@@ -114,3 +114,10 @@ body {
 .crud-button.create:hover {
     background-color: #FFB500;
 }
+
+.crud-button.go-back {
+    background-color: #bbd4ff;
+}
+.crud-button.go-back:hover {
+    background-color: #A1C4FF;
+}
