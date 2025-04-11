@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BodyPartType;
 use Illuminate\Http\Request;
 
 class BodyPartTypeController extends Controller
@@ -24,7 +25,21 @@ class BodyPartTypeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // take an object containing the post's title and body and
+        // validate the data
+        $request->validate([
+            'name' => 'required|max:255',
+            'expiration_period_minutes' => 'required',
+            'description' => 'required',
+        ]);
+
+        // add a new body part type to the database
+        BodyPartType::create($request->all());
+        
+        // redirect to the body part type homepage with a success message
+        return redirect()
+                ->route('body_part_type.index')
+                ->with('success', 'New body part type created successfully.');
     }
 
     /**
