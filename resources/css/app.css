@@ -121,3 +121,10 @@ body {
 .crud-button.go-back:hover {
     background-color: #A1C4FF;
 }
+
+.crud-button.update {
+    background-color: #79ffe2;
+}
+.crud-button.update:hover {
+    background-color: #00FFC8;
+}
