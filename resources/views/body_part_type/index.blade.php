@@ -5,7 +5,7 @@
         </div>
         <div>
             @foreach ($bodyPartTypes as $bodyPartType)
-                <div class="body-part-box">
+                <div class="body-part-type-box">
                     <h3>
                         {{ $bodyPartType->name }}
                     </h3>
