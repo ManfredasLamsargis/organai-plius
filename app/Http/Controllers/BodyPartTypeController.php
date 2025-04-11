@@ -80,7 +80,15 @@ class BodyPartTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $bodyPartType = BodyPartType::findOrFail($id);
+
+        $bodyPartType->update($request->only([
+            'name',
+            'expiration_period_minutes',
+            'description'
+        ]));
+    
+        return redirect()->route('body_part_type.index');
     }
 
     /**
