@@ -14,7 +14,7 @@ class BodyPartTypeController extends Controller
      */
     public function index()
     {
-        //
+        return view('body_part_type.index');
     }
 
     /**
@@ -35,7 +35,7 @@ class BodyPartTypeController extends Controller
 
         // add a new body part type to the database
         BodyPartType::create($request->all());
-        
+
         // redirect to the body part type homepage with a success message
         return redirect()
                 ->route('body_part_type.index')
