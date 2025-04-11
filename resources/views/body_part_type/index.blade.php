@@ -1,16 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Body Part Types</title>
-    </head>
-    <body>
+<x-layout>
+    <div>
         <div>
             <a href="{{ route('body_part_type.create') }}">Create</a>
         </div>
         <div>
             @foreach ($bodyPartTypes as $bodyPartType)
-                <div>
+                <div class="body-part-box">
                     <h3>
                         {{ $bodyPartType->name }}
                     </h3>
@@ -26,5 +21,5 @@
                 </div>
             @endforeach
         </div>
-    </body>
-</html>
+    </div>
+</x-layout>panel-9-39
