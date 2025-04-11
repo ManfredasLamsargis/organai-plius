@@ -49,8 +49,14 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    text-align: center;
     align-items: center;
     margin: 20px;
+}
+
+.body-part-type-box.info {
+    width: 80vw;
+    height: 80vh;
 }
 
 .body-part-type-buttons-container {
@@ -81,6 +87,13 @@ body {
     transform: translateY(4px);
 }
 
+.crud-button.show {
+    background-color: #d8d8d8;
+}
+.crud-button.show:hover {
+    background-color: #adadad;
+}
+
 .crud-button.edit {
    background: #52d4ff;
 }
@@ -100,4 +113,11 @@ body {
 }
 .crud-button.create:hover {
     background-color: #FFB500;
+}
+
+.crud-button.go-back {
+    background-color: #bbd4ff;
+}
+.crud-button.go-back:hover {
+    background-color: #A1C4FF;
 }
