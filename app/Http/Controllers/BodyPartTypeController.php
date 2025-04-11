@@ -63,12 +63,13 @@ class BodyPartTypeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int 
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(BodyPartType $bodyPartType)
     {
-        //
+        return response()
+                    ->view('body_part_type.show', ['bodyPartType' => $bodyPartType]);
     }
 
     /**

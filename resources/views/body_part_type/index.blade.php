@@ -15,14 +15,9 @@
                         {{ $bodyPartType->expiration_period_minutes }}
                     </p>
                     <div class="body-part-type-buttons-container">
-                        <a href="{{ route('body_part_type.edit', $bodyPartType) }}">
-                            <button class="crud-button edit" type="button">Edit</button>
+                        <a href="{{ route('body_part_type.show', $bodyPartType) }}">
+                            <button class="crud-button show" type="button">Details</button>
                         </a>
-                        <form action="{{ route('body_part_type.destroy', $bodyPartType) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button class="crud-button delete" type="submit">Delete</button>
-                        </form>
                     </div>
                 </div>
             @endforeach

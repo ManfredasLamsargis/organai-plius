@@ -49,8 +49,14 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
+    text-align: center;
     align-items: center;
     margin: 20px;
+}
+
+.body-part-type-box.info {
+    width: 80vw;
+    height: 80vh;
 }
 
 .body-part-type-buttons-container {
@@ -79,6 +85,13 @@ body {
 .crud-button:active {
     box-shadow: 0 5px #666;
     transform: translateY(4px);
+}
+
+.crud-button.show {
+    background-color: #d8d8d8;
+}
+.crud-button.show:hover {
+    background-color: #adadad;
 }
 
 .crud-button.edit {
