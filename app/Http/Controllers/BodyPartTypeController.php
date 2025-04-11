@@ -38,7 +38,8 @@ class BodyPartTypeController extends Controller
         BodyPartType::create($request->all());
 
         // redirect to the body part type homepage with a success message
-        return redirect()
+        return response()
+                ->redirect()
                 ->route('body_part_type.index')
                 ->with('success', 'New body part type created successfully.');
     }
@@ -50,7 +51,7 @@ class BodyPartTypeController extends Controller
      */
     public function create()
     {
-        return view('body_part_type.create');
+        return response()->view('body_part_type.create');
     }
 
 
