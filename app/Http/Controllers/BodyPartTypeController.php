@@ -14,7 +14,8 @@ class BodyPartTypeController extends Controller
      */
     public function index()
     {
-        return view('body_part_type.index');
+        $bodyPartTypes = BodyPartType::all();
+        return view('body_part_type.index', ['bodyPartTypes' => $bodyPartTypes]);
     }
 
     /**
@@ -41,6 +42,17 @@ class BodyPartTypeController extends Controller
                 ->route('body_part_type.index')
                 ->with('success', 'New body part type created successfully.');
     }
+
+    /**
+     * Show the form for creating a new post.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        return view('body_part_type.create');
+    }
+
 
     /**
      * Display the specified resource.
@@ -74,5 +86,5 @@ class BodyPartTypeController extends Controller
     public function destroy($id)
     {
         //
-    }
+    }    
 }
