@@ -15,7 +15,7 @@ class BodyPartTypeController extends Controller
     public function index()
     {
         $bodyPartTypes = BodyPartType::all();
-        return view('body_part_type.index', ['bodyPartTypes' => $bodyPartTypes]);
+        return view('body_part_type.index')->with('bodyPartTypes', $bodyPartTypes);
     }
 
     /**
