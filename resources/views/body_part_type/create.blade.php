@@ -4,6 +4,16 @@
     <title>Create Body Part Type</title>
 </head>
 <body>
+    <!-- Error handling for debugging. -->
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <div>
         <h1>
             Create Body Part Type
@@ -11,16 +21,16 @@
         <form action="{{ route('body_part_type.store') }}" method="POST">
             @csrf
             <div>
-                <label>Name</label>
-                <textarea type="text" id="name" required></textarea>
+                <label for="name">Name</label>
+                <textarea name="name" id="name" required></textarea>
             </div>
             <div>
-                <label>Expiration period</label>
-                <textarea type="text" id="expiration_period" required></textarea>
+                <label for="expiration_period_minutes">Expiration period</label>
+                <input type="number" name="expiration_period_minutes" id="expiration_period_minutes" required>
             </div>
             <div>
-                <label>Description</label>
-                <textarea type="text" id="description" rows="3" required></textarea>
+                <label for="description">Description</label>
+                <textarea name="description" id="description" rows="3" required></textarea>
             </div>
             <button type="submit">Create</button>
         </form>
