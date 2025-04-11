@@ -39,8 +39,7 @@ class BodyPartTypeController extends Controller
 
         // redirect to the body part type homepage with a success message
         return response()
-                ->redirect()
-                ->route('body_part_type.index')
+                ->redirectToRoute('body_part_type.index')
                 ->with('success', 'New body part type created successfully.');
     }
 
