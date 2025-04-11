@@ -55,6 +55,12 @@ class BodyPartTypeController extends Controller
     }
 
 
+    public function edit(BodyPartType $bodyPartType)
+    {
+        return response()
+                    ->view('body_part_type.edit', ['bodyPartType' => $bodyPartType]);
+    }
+
     /**
      * Display the specified resource.
      *
