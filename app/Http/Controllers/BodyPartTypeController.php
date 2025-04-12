@@ -81,6 +81,12 @@ class BodyPartTypeController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required|unique:body_part_types,name,' . $id,
+            'expiration_period_minutes' => 'nullable|integer',
+            'description' => 'nullable|string',
+        ]);
+        
         $bodyPartType = BodyPartType::findOrFail($id);
 
         $bodyPartType->update($request->only([
