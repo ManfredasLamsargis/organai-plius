@@ -2,7 +2,7 @@
     <div class="body-part-type-box-container">
         <div class="body-part-type-box info">
             <h1>Edit Body Part Type</h1>
-            <form action="{{ route('body_part_type.update', $bodyPartType->id) }}" method="POST">
+            <form action="{{ route('body_part_type.update', $bodyPartType->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to update this body part type?')">
                 @csrf
                 @method('PUT')
                 <div>
