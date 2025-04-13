@@ -40,7 +40,7 @@ class BodyPartTypeController extends Controller
         // redirect to the body part type homepage with a success message
         return response()
                 ->redirectToRoute('body_part_type.index')
-                ->with('success', 'New body part type created successfully.');
+                ->with('message', 'New body part type created.');
     }
 
     /**
@@ -95,7 +95,7 @@ class BodyPartTypeController extends Controller
             'description'
         ]));
     
-        return redirect()->route('body_part_type.index');
+        return redirect()->route('body_part_type.index')->with('message','Body part type updated.');
     }
 
     /**
@@ -106,6 +106,10 @@ class BodyPartTypeController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $bodyPartType = BodyPartType::findOrFail($id);
+        $bodyPartType->delete();
+        return response()
+                ->redirectToRoute('body_part_type.index')
+                ->with('message','Body part deleted.');
     }    
 }
