@@ -17,7 +17,7 @@
                 <a href="{{ route('body_part_type.edit', $bodyPartType) }}">
                     <button class="crud-button edit" type="button">Edit</button>
                 </a>
-                <form action="{{ route('body_part_type.destroy', $bodyPartType) }}" method="POST">
+                <form action="{{ route('body_part_type.destroy', $bodyPartType) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this body part type?');">
                     @csrf
                     @method('DELETE')
                     <button class="crud-button delete" type="submit">Delete</button>

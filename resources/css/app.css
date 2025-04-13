@@ -11,7 +11,7 @@
     padding: 0;
 }
 
-body {
+.synth-gradient-background {
     background: linear-gradient(
     to right,
     #22223B 0%,
