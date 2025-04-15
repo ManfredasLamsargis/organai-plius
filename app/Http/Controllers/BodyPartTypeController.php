@@ -86,8 +86,7 @@ class BodyPartTypeController extends Controller
             'expiration_period_minutes' => 'nullable|integer',
             'description' => 'nullable|string',
         ]);
-        
-        $bodyPartType = BodyPartType::findOrFail($id);
+        $bodyPartType = BodyPartType::find($id);
 
         $bodyPartType->update($request->only([
             'name',
@@ -106,7 +105,7 @@ class BodyPartTypeController extends Controller
      */
     public function destroy($id)
     {
-        $bodyPartType = BodyPartType::findOrFail($id);
+        $bodyPartType = BodyPartType::find($id);
         $bodyPartType->delete();
         return response()
                 ->redirectToRoute('body_part_type.index')

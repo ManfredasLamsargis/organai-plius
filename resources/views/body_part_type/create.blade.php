@@ -18,7 +18,7 @@
     <div class="body-part-type-box-container">
         <div class="body-part-type-box info">
             <h1>Create Body Part Type</h1>
-            <form action="{{ route('body_part_type.store') }}" method="POST" onsubmit="return confirm('Are you sure you want to create this body part type?')">
+            <form action="{{ route('body_part_type.store') }}" method="POST">
                 @csrf
                 <div>
                     <label for="name">Name</label>
