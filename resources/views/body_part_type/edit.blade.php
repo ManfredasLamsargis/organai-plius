@@ -21,6 +21,7 @@
                     <textarea name="description" id="description" rows="3" required>{{ $bodyPartType->description }}</textarea>
                 </div>
                 <button class="crud-button update" type="submit">Update</button>
+                <button class="crud-button cancel" type="button" onclick="history.back()">Cancel</button>
             </form>
         </div>
     </div>    
