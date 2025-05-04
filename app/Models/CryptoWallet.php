@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CryptoWallet extends Model
 {
     use HasFactory;
-
+    public $timestamps = false;
     /**
      * @var array
      */

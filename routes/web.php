@@ -17,4 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BodyPartTypeController::class, 'index'])->name('Body Part Types');
 Route::resource('body_part_type', BodyPartTypeController::class);
+// Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);
+Route::resource('crypto_wallet', CryptoWalletController::class);
+Route::get('/crypto-wallet/form', [CryptoWalletController::class, 'getCryptoWalletForm'])
+    ->name('crypto_wallet.getCryptoWalletForm');
