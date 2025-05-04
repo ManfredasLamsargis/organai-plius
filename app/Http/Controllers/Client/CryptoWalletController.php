@@ -4,20 +4,11 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Models\CryptoWallet;
+use App\Boundaries\Client\CryptoProviderAPI;
 
 class CryptoWalletController extends Controller
 {
-    private function connectToMockCryptoProvider(string $address): array
-    {
-        $response = Http::get('http://127.0.0.1:9000', [
-            'address' => $address
-        ]);
-    
-        return $response->json();
-    }
-
     public function main()
     {
         return view('Client.main');
@@ -39,19 +30,25 @@ class CryptoWalletController extends Controller
             'address' => 'required|string|max:255'
         ]);
     
-        $walletInfo = $this->connectToMockCryptoProvider($data['address']);
-    
-        CryptoWallet::create([
+        $wallet = CryptoWallet::create([
             'address' => $data['address'],
-            'authorized' => $walletInfo['authorized'],
-            'balance' => $walletInfo['balance']
+            'authorized' => false,
+            'balance' => 0
         ]);
-        
-        if (!$walletInfo['authorized']) {
-            return redirect()->back()->with('message', 'Wallet address saved, but not authorized.');
-        }
+    
+        $provider = new CryptoProviderAPI();
+        $walletInfo = $provider->sendCryptoWalletData($wallet->address);
 
-        return redirect()->back()->with('message', 'Wallet created and verified.');
+        if ($walletInfo['authorized']) {
+            $wallet->update([
+                'authorized' => true,
+                'balance' => $walletInfo['balance']
+            ]);
+    
+            return redirect()->back()->with('message', 'Wallet created and verified.');
+        }
+    
+        return redirect()->back()->with('message', 'Wallet address saved, but not authorized.');
     }
 
     public function processReturnedState(Request $request)
