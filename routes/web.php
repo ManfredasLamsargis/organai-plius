@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BodyPartTypeController;
 use App\Http\Controllers\Client\CryptoWalletController;
+use App\Http\Controllers\Shared\BodyPartController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,5 +21,6 @@ Route::resource('body_part_type', BodyPartTypeController::class);
 // Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);
 Route::resource('crypto_wallet', CryptoWalletController::class);
-Route::get('/crypto-wallet/form', [CryptoWalletController::class, 'getCryptoWalletForm'])
-    ->name('crypto_wallet.getCryptoWalletForm');
+//Route::get('/crypto-wallet/form', [CryptoWalletController::class, 'getCryptoWalletForm'])
+//    ->name('crypto_wallet.getCryptoWalletForm');
+Route::resource('body_part', BodyPartController::class);

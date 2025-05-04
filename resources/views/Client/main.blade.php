@@ -12,7 +12,7 @@
         </header>
         <nav>
             <ul>
-                <li><a href="{{ route('crypto_wallet.getCryptoWalletForm') }}">Add crypto wallet</a></li>
+                <li><a href="{{ route('crypto_wallet.create') }}">Add crypto wallet</a></li>
             </ul>
         </nav>
     </div>
