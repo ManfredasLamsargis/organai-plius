@@ -9,7 +9,15 @@
 
         <div class="body-part-type-buttons-container" style="margin-top: 20px;">
             <button class="crud-button edit">Place bid</button>
-            <button class="crud-button create">Buy now!</button>
+            <form 
+                action="{{ route('body_part.buy', $offer->id) }}" 
+                method="POST" 
+                style="display:inline;" 
+                onsubmit="return confirm('Do you agree to buy this body part for €{{ number_format($offer->price, 2) }}?');"
+            >
+                @csrf
+                <button type="submit" class="crud-button create">Buy now!</button>
+            </form>
         </div>
 
         <a href="{{ url()->previous() }}">

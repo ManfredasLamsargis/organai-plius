@@ -61,14 +61,20 @@ class CryptoWalletController extends Controller
         return redirect()->back()->with('message', 'Wallet disconnected.');
     }
 
-    public function getBalance()
+    public static function getBalance($id, $amount = -1): bool|float
     {
-        return response()->json(['balance' => 100.00]);
+        $wallet = CryptoWallet::findOrFail($id);
+    
+        if ($amount == -1) {
+            return $wallet->balance;
+        }
+    
+        return self::checkBalance($wallet, $amount);
     }
-
-    public function checkBalance()
+    
+    private static function checkBalance(CryptoWallet $wallet, float $amount): bool
     {
-        return $this->getBalance();
+        return $wallet->balance >= $amount;
     }
 
     public function performPayment(Request $request)

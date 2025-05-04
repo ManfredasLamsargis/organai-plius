@@ -7,9 +7,28 @@ use Illuminate\Http\Request;
 use App\Models\BodyPartOffer;
 use App\Models\BodyPartType;
 use App\Enums\BodyPartOfferStatus;
+use App\Http\Controllers\Client\CryptoWalletController;
+use App\Http\Controllers\Shared\OrderController;
 
 class BodyPartController extends Controller
 {
+    public function buy($id)
+    {
+        $offer = BodyPartOffer::findOrFail($id);
+        $price = $offer->price;
+    
+        $canBuy = CryptoWalletController::getBalance(1, $price);
+    
+        if (!$canBuy) {
+            return back()->with('message', 'Insufficient balance to buy this offer.');
+        }
+    
+        $orderController = new OrderController();
+        $order = $orderController->store($offer);
+    
+        return back()->with('message', 'Order created. Proceed to payment.');
+    }
+
     public function create()
     {
         $bodyPartTypes = BodyPartType::all();
