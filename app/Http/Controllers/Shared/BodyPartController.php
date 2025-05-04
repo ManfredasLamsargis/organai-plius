@@ -16,6 +16,15 @@ class BodyPartController extends Controller
         return view('Supplier.add_body_part_offer', compact('bodyPartTypes'));
     }
 
+    public function index()
+    {
+        $offers = BodyPartOffer::with('bodyPartType')
+        ->where('status', BodyPartOfferStatus::NOT_RESERVED)
+        ->get();
+
+        return view('Client.body_part_list', compact('offers'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -33,4 +42,13 @@ class BodyPartController extends Controller
         return redirect()->back()->with('message', 'Body part offer created successfully.');
     }
     
+    public function show($id)
+    {
+        $offer = BodyPartOffer::with('bodyPartType')
+        ->where('status', BodyPartOfferStatus::NOT_RESERVED)
+        ->findOrFail($id);
+
+        return view('Client.body_part', compact('offer'));
+    }
+
 }
