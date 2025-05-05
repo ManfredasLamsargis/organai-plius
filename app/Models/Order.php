@@ -13,11 +13,17 @@ class Order extends Model
     protected $fillable = [
         'created_at',
         'total_price',
-        'status'
+        'status',
+        'body_part_offer_id'
     ];
 
     protected $casts = [
         'status' => OrderStatus::class,
         'created_at' => 'datetime'
     ];
+
+    public function bodyPartOffer()
+    {
+        return $this->belongsTo(BodyPartOffer::class);
+    }
 }

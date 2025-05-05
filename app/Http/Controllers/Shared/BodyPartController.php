@@ -9,13 +9,15 @@ use App\Models\BodyPartType;
 use App\Enums\BodyPartOfferStatus;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\OrderController;
+use App\Enums\OrderStatus;
 
 class BodyPartController extends Controller
 {
     public function buy($id)
     {
+        $multiplier = 1.5;
         $offer = BodyPartOffer::findOrFail($id);
-        $price = $offer->price;
+        $price = $offer->price * $multiplier;
     
         $canBuy = CryptoWalletController::getBalance(1, $price);
     
@@ -24,9 +26,13 @@ class BodyPartController extends Controller
         }
     
         $orderController = new OrderController();
-        $order = $orderController->store($offer);
-    
-        return back()->with('message', 'Order created. Proceed to payment.');
+        $orderController->store($offer, $multiplier);
+        
+        return back()->with([
+            'offerId' => $id,
+            'needsConfirmation' => true
+        ]);
+        //return back()->with('message', 'Order created. Proceed to payment.');
     }
 
     public function create()
@@ -70,4 +76,20 @@ class BodyPartController extends Controller
         return view('Client.body_part', compact('offer'));
     }
 
+    public function agreeToBuy(Request $request, $id)
+    {
+        $offer = BodyPartOffer::findOrFail($id);
+        $amount = $offer->price * 1.5;
+    
+        $paymentResult = CryptoWalletController::performPayment($amount);
+    
+        if ($paymentResult['success']) {
+            $orderController = new OrderController();
+            $orderController->updateStatus($offer, OrderStatus::IN_DELIVERY);
+
+            return back()->with('message', 'Payment successful.');
+        }
+    
+        return back()->with('message', 'Payment failed.');
+    }    
 }

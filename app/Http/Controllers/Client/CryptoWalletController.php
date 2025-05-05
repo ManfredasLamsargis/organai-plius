@@ -77,8 +77,9 @@ class CryptoWalletController extends Controller
         return $wallet->balance >= $amount;
     }
 
-    public function performPayment(Request $request)
+    public static function performPayment(float $amount)
     {
-        return response()->json(['status' => 'payment_successful']);
+        $provider = new CryptoProviderAPI();
+        return $provider->sendPaymentRequest($amount);
     }
 }

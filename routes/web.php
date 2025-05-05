@@ -25,3 +25,6 @@ Route::resource('crypto_wallet', CryptoWalletController::class);
 //    ->name('crypto_wallet.getCryptoWalletForm');
 Route::resource('body_part', BodyPartController::class);
 Route::post('/body-part/buy/{id}', [BodyPartController::class, 'buy'])->name('body_part.buy');
+Route::post('/body-part/agree/{id}', [BodyPartController::class, 'agreeToBuy'])->name('body_part.agree');
+
+
