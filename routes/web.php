@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BodyPartTypeController;
+use App\Http\Controllers\MessageController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BodyPartTypeController::class, 'index'])->name('Body Part Types');
 Route::resource('body_part_type', BodyPartTypeController::class);
+
+Route::get('/messages', [MessageController::class, 'index'])->name('Messages');
+Route::resource('message', MessageController::class);
