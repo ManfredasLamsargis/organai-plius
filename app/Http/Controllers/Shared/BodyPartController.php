@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\BodyPartOffer;
 use App\Models\BodyPartType;
+use App\Models\Auction;
 use App\Enums\BodyPartOfferStatus;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\OrderController;
 use App\Enums\OrderStatus;
+use App\Enums\AuctionStatus;
 
 class BodyPartController extends Controller
 {
@@ -63,7 +65,14 @@ class BodyPartController extends Controller
         $validated['last_updated_at'] = now();
     
         BodyPartOffer::create($validated);
-    
+        Auction::create([
+            'minimum_bid' => $validated['price'] + 1,
+            'start_time' => now(),
+            'end_time' => now()->addHour(),
+            'status' => AuctionStatus::NOT_STARTED,
+            'participant_count' => 0
+        ]);
+
         return redirect()->back()->with('message', 'Body part offer created successfully.');
     }
     

@@ -38,7 +38,7 @@
             </script>
         @endif
 
-        <a href="{{ url()->previous() }}">
+        <a href="{{ url('/body_part') }}">
             <button class="crud-button go-back">Go Back</button>
         </a>
     </div>
