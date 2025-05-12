@@ -16,3 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BodyPartTypeController::class, 'index'])->name('Body Part Types');
 Route::resource('body_part_type', BodyPartTypeController::class);
+Route::get('/routes/demo', function () {
+    return view('route.index');
+});
