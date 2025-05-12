@@ -25,4 +25,9 @@ class Auction extends Model
         'end_time' => 'datetime',
         'status' => AuctionStatus::class
     ];
+
+    public function bodyPartOffer()
+    {
+        return $this->belongsTo(BodyPartOffer::class);
+    }
 }

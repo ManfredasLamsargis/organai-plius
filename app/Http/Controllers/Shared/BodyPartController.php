@@ -15,6 +15,17 @@ use App\Enums\AuctionStatus;
 
 class BodyPartController extends Controller
 {
+    public function redirectToAuction($offerId)
+    {
+        $offer = BodyPartOffer::with('auction')->findOrFail($offerId);
+
+        if (!$offer->auction) {
+            return back()->with('message', 'This offer does not have an associated auction.');
+        }
+
+        return redirect()->route('auctions.show', ['auction' => $offer->auction->id]);
+    }
+
     public function buy($id)
     {
         $multiplier = 1.5;

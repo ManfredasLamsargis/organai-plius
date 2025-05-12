@@ -28,4 +28,9 @@ class BodyPartOffer extends Model
     {
         return $this->belongsTo(BodyPartType::class);
     }
+
+    public function auction()
+    {
+        return $this->hasOne(Auction::class);
+    }
 }
