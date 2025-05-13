@@ -15,6 +15,18 @@ use App\Enums\AuctionStatus;
 
 class BodyPartController extends Controller
 {
+    public static function reserveBodyPart($offerId)
+    {
+        $offer = BodyPartOffer::findOrFail($offerId);
+        $offer->status = BodyPartOfferStatus::RESERVED;
+        $offer->last_updated_at = now();
+        $offer->save();
+
+        # 22 rename to save()
+
+        return back()->with('message', 'Body part offer reserved successfully.');
+    }
+
     public function redirectToAuction($offerId)
     {
         $offer = BodyPartOffer::with('auction')->findOrFail($offerId);

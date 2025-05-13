@@ -8,6 +8,9 @@
         @if($auction->bodyPartOffer)
             <p><strong>Description:</strong> {{ $auction->bodyPartOffer->description }}</p>
             <p><strong>Price:</strong> {{ $auction->bodyPartOffer->price }}</p>
+            @if($auction->status->value == "active")
+                <p style="color: green;"><strong>ACTIVE</strong></p>
+            @endif
         @else
             <p>No associated offer found.</p>
         @endif
