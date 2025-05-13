@@ -99,8 +99,25 @@ class AuctionController extends Controller
         // ]);
 
         AuctionController::handleBid($auction, $newBid, $bidAmount);
+        
 
 
         return response()->json(['enough' => true]);
     }
+
+    public static function checkBodyPartExpiration()
+    {
+        // Working code
+        // $activeAuctions = Auction::where('status', AuctionStatus::ACTIVE)->get();
+
+        // foreach ($activeAuctions as $auction) {
+        //     if ($auction->ends_at <= now()) {
+        //         $auction->status = AuctionStatus::WON;
+        //         $auction->save();
+        //     }
+        // }
+
+        
+    }
+
 }

@@ -15,6 +15,11 @@ use App\Enums\AuctionStatus;
 
 class BodyPartController extends Controller
 {
+    public static function checkBodyPartExpiration($offerId)
+    {
+        
+    }
+
     public static function reserveBodyPart($offerId)
     {
         $offer = BodyPartOffer::findOrFail($offerId);
