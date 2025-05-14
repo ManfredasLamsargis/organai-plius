@@ -13,7 +13,7 @@
         @endif
     </p>
 
-    <form action="{{ route('courier.reserve', ['id' => 1]) }}" method="POST">
+    <form action="{{ route('courier.reserve', ['id' => $delivery->id]) }}" method="POST">
         @csrf
         <button type="submit">
             Accept
