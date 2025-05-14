@@ -16,7 +16,7 @@ class DeliveryReservationController extends Controller
 
     public function show($id)
     {
-        $delivery = \App\Models\Delivery::with(['pickupPoint', 'dropPoint', 'currentLocation'])->findOrFail($id);
+        $delivery = DeliveryController::find($id);
 
         return view('courier.delivery-info', compact('delivery'));
     }
