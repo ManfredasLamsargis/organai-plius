@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\BodyPartOffer;
 
 class BodyPartType extends Model
 {
@@ -18,4 +19,9 @@ class BodyPartType extends Model
         'expiration_period_minutes',
         'description'
     ];
+
+    public function offers()
+    {
+        return $this->hasMany(BodyPartOffer::class);
+    }
 }
