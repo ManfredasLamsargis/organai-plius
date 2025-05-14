@@ -17,9 +17,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pickup_point_coordinate_id')->constrained('coordinates');
             $table->foreignId('drop_point_coordinate_id')->constrained('coordinates');
-            $table->foreignId('current_location_coordinate_id')->constrained('coordinates')->nullable();
+            $table->foreignId('current_location_coordinate_id')->nullable()->constrained('coordinates');
             // MANFREDAS_TODO: create add a responsible courier foreign key
-            $table->foreignId('generated_route_id')->constrained('routes')->nullable();
+            $table->foreignId('generated_route_id')->nullable()->constrained('routes');
             $table->timestamps();
         });
     }
