@@ -143,5 +143,19 @@ class BodyPartController extends Controller
         }
     
         return back()->with('message', 'Payment failed.');
-    }    
+    }
+
+    public static function updateToSold(BodyPartOffer $offer)
+    {
+        $offer->status = BodyPartOfferStatus::SOLD;
+        $offer->last_updated_at = now();
+        $offer->save();
+    }
+
+    public static function unreserve(BodyPartOffer $offer)
+    {
+        $offer->status = BodyPartOfferStatus::NOT_RESERVED;
+        $offer->last_updated_at = now();
+        $offer->save();
+    }
 }

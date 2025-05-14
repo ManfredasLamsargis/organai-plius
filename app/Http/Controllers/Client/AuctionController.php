@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Models\BodyPartOffer;
 use App\Models\Auction;
 use App\Models\Bid;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Shared\BodyPartController;
+use App\Http\Controllers\Shared\OrderController;
 use Illuminate\Http\Request;
 use App\Enums\AuctionStatus;
+use App\Enums\AuctionTriggerType;
+use App\Enums\OrderStatus;
 
 class AuctionController extends Controller
 {
@@ -28,7 +32,6 @@ class AuctionController extends Controller
     {
         if ($newBid)
         {
-            // Create bid 27-28
             Bid::create([
                 'date' => now(),
                 'amount' => $bidAmount,
@@ -42,6 +45,9 @@ class AuctionController extends Controller
                 'amount' => $bidAmount
             ]);
         }
+
+        $auction->minimum_bid = $bidAmount;
+        $auction->save();
     }
 
     public function checkBidBalance(Request $request, Auction $auction)
@@ -54,19 +60,13 @@ class AuctionController extends Controller
             ]);
         }
 
-        // $request->validate([
-        //     'bid_amount' => 'required|numeric|min:' . $auction->minimum_bid,
-        // ]);
-
         $bidAmount = (float) $request->input('bid_amount');
         if (!CryptoWalletController::getBalance(1, $bidAmount)) {
             return response()->json([
                 'enough' => false,
-                'message' => 'Your crypto balance is too low.'
+                'message' => 'Your crypto balance insufficient'
             ]);
         }
-        
-        //return response()->json(['enough' => true]);
         
         $response = $this->checkState($auction); 
         $data = $response->getData(true);
@@ -155,31 +155,68 @@ class AuctionController extends Controller
 
     public static function handleAuction(Auction $auction, bool $isTriggeredByUser = true)
     {
-        // if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
-        // {
-        //     // Expired
-        //     // 35
-        //     AuctionController::cancelAuction($auction);
+        if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
+        {
+            // Expired
+            // 35
+            AuctionController::cancelAuction($auction);
             
-        //     // 38-39
-        //     return response()->json([
-        //         'enough' => false,
-        //         'message' => 'The body part offer has expired. The auction has been canceled.'
-        //     ]);
-        // }
+            // 38-39
+            // return response()->json([
+            //     'enough' => false,
+            //     'message' => 'The body part offer has expired. The auction has been canceled.'
+            // ]);
+
+            return;
+        }
 
         // body part is valid
-        if (AuctionController::isTriggeredByTimeOrBid($auction, $isTriggeredByUser))
+        $triggerType = AuctionController::isTriggeredByTimeOrBid($auction, $isTriggeredByUser);
+        if ($triggerType == AuctionTriggerType::TIME)
         {
-            // triggered by time event
-            return response()->json([
-                'enough' => false,
-                'message' => 'TRIGGERED BY TIME EVENT'
-            ]);
+            // 45
+            $bodyPartOffer = BodyPartOffer::find($auction->body_part_offer_id);
+            $orderController = new OrderController();
+            // 47
+            $orderController->store($bodyPartOffer);
+
+            $paymentResult = CryptoWalletController::performPayment($auction->minimum_bid);
+            
+            // Payment successful
+            if ($paymentResult['success'])
+            {
+                $orderController = new OrderController();
+                // 53
+                $orderController->updateStatus($bodyPartOffer, OrderStatus::IN_DELIVERY);
+                // 57
+                BodyPartController::updateToSold($bodyPartOffer);
+
+                $auction->status = AuctionStatus::WON;
+                // 61
+                $auction->save();
+
+                return back()->with('message', 'Payment successful. You won the auction!');
+            }
+            else // Payment unsuccessful
+            {
+                $auction->status = AuctionStatus::NOT_STARTED;
+                // 65
+                $auction->save();
+                $orderController = new OrderController();
+                // 67
+                $orderController->updateStatus($bodyPartOffer, OrderStatus::CANCELED);
+                // 71
+                BodyPartController::unreserve($bodyPartOffer);
+
+                return response()->json([
+                    'enough' => false,
+                    'message' => 'Payment unsuccessful'
+                ]);
+            }
         }
-        else
+        else if ($triggerType == AuctionTriggerType::USER)
         {
-            // For now it is static since we do not have auth
+            // For now it is static since we do not have an auth
             $auction->leader_id = 1;
             $auction->end_time = \Carbon\Carbon::parse($auction->end_time)->addMinutes(30);
             // 41
@@ -192,39 +229,38 @@ class AuctionController extends Controller
                 'message' => 'New bid accepted and registered successfully.'
             ]);
         }
+        else
+        {
+            return;
+        }
     }
 
     // Return false - triggered by user
     // Return true - triggered by time event
     public static function isTriggeredByTimeOrBid(Auction $auction, bool $isTriggeredByUser = true)
     {
-        if ($isTriggeredByUser) {
-            return false;
+        if ($isTriggeredByUser) 
+        {
+            return AuctionTriggerType::USER;
         }
 
         // Auction time expired
-        if (isset($auction->ends_at) && now()->greaterThanOrEqualTo($auction->ends_at)) {
-            return true;
+        if (isset($auction->end_time) && now()->greaterThanOrEqualTo($auction->end_time)) 
+        {
+            return AuctionTriggerType::TIME;
         }
 
-        return false;
+        return AuctionTriggerType::SKIP;
     }
 
     public static function checkAuction()
     {
-        // Working code
         $activeAuctions = Auction::where('status', AuctionStatus::ACTIVE)->get();
 
         foreach ($activeAuctions as $auction) 
         {
+            logger("DAR ALL G");
             AuctionController::handleAuction($auction, false);
-                //$auction->status = AuctionStatus::WON;
-                //$auction->save();
         }
-
-
-
-        
     }
-
 }
