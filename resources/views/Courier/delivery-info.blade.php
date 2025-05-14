@@ -13,5 +13,13 @@
         @endif
     </p>
 
+    <form action="{{ route('courier.reserve', ['id' => 1]) }}" method="POST">
+        @csrf
+        <button type="submit">
+            Accept
+        </button>
+    </form>
+    <br>
+
     <a href="{{ route('courier.delivery.index') }}">Back to list</a>
 @endsection

@@ -21,6 +21,7 @@ Route::get('/courier/main', function () {
 });
 Route::get('/courier/deliveries', [DeliveryReservationController::class, 'index'])->name('courier.delivery.index');
 Route::get('/courier/delivery/{id}', [DeliveryReservationController::class, 'show'])->name('courier.delivery.info');
+Route::post('/courier/reserve/{id}', [DeliveryReservationController::class, 'reserve'])->name('courier.reserve');
 
 // Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);

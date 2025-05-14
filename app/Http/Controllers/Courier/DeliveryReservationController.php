@@ -20,4 +20,10 @@ class DeliveryReservationController extends Controller
 
         return view('courier.delivery-info', compact('delivery'));
     }
+
+    public function reserve($id)
+    {
+        DeliveryController::update($id);
+        throw new NotImplementedException('TODO: Manfredas Lamsargis');
+    }
 }

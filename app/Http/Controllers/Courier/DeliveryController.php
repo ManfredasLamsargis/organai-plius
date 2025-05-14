@@ -23,4 +23,9 @@ class DeliveryController extends Controller
     $delivery = Delivery::with(['pickupPoint', 'dropPoint', 'currentLocation'])->findOrFail($id);
     return $delivery;
   }
+
+  public static function update($id)
+  {
+    throw new NotImplementedException('TODO: Manfredas Lamsargis');
+  }
 }
