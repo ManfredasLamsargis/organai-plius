@@ -30,4 +30,10 @@ class Auction extends Model
     {
         return $this->belongsTo(BodyPartOffer::class);
     }
+
+    public function leader()
+    {
+        return $this->belongsTo(User::class, 'leader_id');
+    }
+
 }

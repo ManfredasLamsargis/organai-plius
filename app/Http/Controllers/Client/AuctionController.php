@@ -155,21 +155,59 @@ class AuctionController extends Controller
 
     public static function handleAuction(Auction $auction, bool $isTriggeredByUser = true)
     {
-        if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
-        {
-            // Expired
-            // 35
-            AuctionController::cancelAuction($auction);
+        // if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
+        // {
+        //     // Expired
+        //     // 35
+        //     AuctionController::cancelAuction($auction);
             
-            // 38-39
-            return response()->json([
-                'enough' => false,
-                'message' => 'The body part offer has expired. The auction has been canceled.'
-            ]);
-        }
+        //     // 38-39
+        //     return response()->json([
+        //         'enough' => false,
+        //         'message' => 'The body part offer has expired. The auction has been canceled.'
+        //     ]);
+        // }
 
         // body part is valid
-        // is triggered by user...
+        if (AuctionController::isTriggeredByTimeOrBid($auction, $isTriggeredByUser))
+        {
+            // triggered by time event
+            return response()->json([
+                'enough' => false,
+                'message' => 'TRIGGERED BY TIME EVENT'
+            ]);
+        }
+        else
+        {
+            // For now it is static since we do not have auth
+            $auction->leader_id = 1;
+            $auction->end_time = \Carbon\Carbon::parse($auction->end_time)->addMinutes(30);
+            // 41
+            $auction->save();
+
+            // triggered by user
+            // 43-44
+            return response()->json([
+                'enough' => true,
+                'message' => 'New bid accepted and registered successfully.'
+            ]);
+        }
+    }
+
+    // Return false - triggered by user
+    // Return true - triggered by time event
+    public static function isTriggeredByTimeOrBid(Auction $auction, bool $isTriggeredByUser = true)
+    {
+        if ($isTriggeredByUser) {
+            return false;
+        }
+
+        // Auction time expired
+        if (isset($auction->ends_at) && now()->greaterThanOrEqualTo($auction->ends_at)) {
+            return true;
+        }
+
+        return false;
     }
 
     public static function checkAuction()
