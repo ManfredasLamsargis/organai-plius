@@ -3,11 +3,18 @@ namespace App\Http\Controllers\Courier;
 
 use App\Http\Controllers\Controller;
 use Nette\NotImplementedException;
+use App\Models\Delivery;
 
 class DeliveryController extends Controller
 {
-  public function getAvailable()
+  public static function getAvailable()
   {
-    throw new NotImplementedException("TODO: Manfredas Lamsargis");
+    $deliveries = Delivery::with([
+        'pickupPoint',
+        'dropPoint',
+        'currentLocation'
+    ])->get();
+
+    return $deliveries;
   }
 }

@@ -23,4 +23,9 @@ class Delivery extends Model
     {
         return $this->belongsTo(Coordinate::class, 'current_location_coordinate_id');
     }
+
+    public function route()
+    {
+        return $this->belongsTo(Route::class, 'generated_route_id');
+    }
 }

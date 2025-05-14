@@ -10,8 +10,8 @@ class DeliveryReservationController extends Controller
 {
     public function index()
     {
-        // MANFREDAS_TODO: fetch unreserved deliveries.
-        return view('courier.delivery_exploring');
+        $deliveries = DeliveryController::getAvailable();
+        return view('courier.delivery-exploring',  compact('deliveries'));
     }
 
     
