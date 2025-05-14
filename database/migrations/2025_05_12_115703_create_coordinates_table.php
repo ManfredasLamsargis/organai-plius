@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('coordinates', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('route_id')->constrained()->onDelete('cascade');
+            $table->foreignId('route_id')->nullable()->constrained()->onDelete('cascade');
             $table->decimal('latitude');
             $table->decimal('longitude');
             $table->timestamps();
