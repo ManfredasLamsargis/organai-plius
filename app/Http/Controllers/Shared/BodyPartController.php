@@ -42,8 +42,6 @@ class BodyPartController extends Controller
         $offer->last_updated_at = now();
         $offer->save();
 
-        # 22 rename to save()
-
         return back()->with('message', 'Body part offer reserved successfully.');
     }
 

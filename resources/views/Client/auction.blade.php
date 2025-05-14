@@ -15,7 +15,7 @@
             <p>No associated offer found.</p>
         @endif
 
-        <h3>Check Balance</h3>
+        <h3>Place bid</h3>
         <form id="bidForm" method="POST" style="margin-top: 20px;">
             @csrf
             <label for="bidAmount"><strong>Amount (€):</strong></label>
@@ -28,11 +28,11 @@
                 required
                 style="margin-left: 10px;"
             >
-            <button type="button" onclick="checkBalance()" class="crud-button create">Place bid</button>
+            <button type="button" onclick="placeBid()" class="crud-button create">Place bid</button>
         </form>
 
         <script>
-            async function checkBalance() {
+            async function placeBid() {
                 const bid = parseFloat(document.getElementById('bidAmount').value);
                 if (!bid) {
                     alert('Please enter a valid amount.');
