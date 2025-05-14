@@ -12,7 +12,7 @@ class CheckAuctionExpirations extends Command
 
     public function handle()
     {
-        AuctionController::checkBodyPartExpiration();
+        AuctionController::checkAuction();
 
         $this->info('Checked for expired auctions.');
         return Command::SUCCESS;

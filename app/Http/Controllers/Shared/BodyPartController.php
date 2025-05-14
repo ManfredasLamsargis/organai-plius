@@ -17,7 +17,22 @@ class BodyPartController extends Controller
 {
     public static function checkBodyPartExpiration($offerId)
     {
-        
+        $offer = BodyPartOffer::find($offerId);
+
+        if (!$offer || !$offer->available_at) {
+            return false;
+        }
+
+        $type = BodyPartType::find($offer->body_part_type_id);
+
+        if (!$type || !$type->expiration_period_minutes) {
+            return false;
+        }
+
+        $expirationTime = \Carbon\Carbon::parse($offer->available_at)
+            ->addHours($type->expiration_period_minutes);
+
+        return now()->greaterThanOrEqualTo($expirationTime);
     }
 
     public static function reserveBodyPart($offerId)

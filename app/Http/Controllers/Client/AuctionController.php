@@ -46,13 +46,24 @@ class AuctionController extends Controller
 
     public function checkBidBalance(Request $request, Auction $auction)
     {
-        $request->validate([
-            'bid_amount' => 'required|numeric|min:' . $auction->minimum_bid,
-        ]);
+        if ($auction->status === AuctionStatus::CANCELED || $auction->status === AuctionStatus::WON) 
+        {
+            return response()->json([
+                'enough' => false,
+                'message' => 'This auction is no longer valid.'
+            ]);
+        }
+
+        // $request->validate([
+        //     'bid_amount' => 'required|numeric|min:' . $auction->minimum_bid,
+        // ]);
 
         $bidAmount = (float) $request->input('bid_amount');
         if (!CryptoWalletController::getBalance(1, $bidAmount)) {
-            return response()->json(['enough' => false]);
+            return response()->json([
+                'enough' => false,
+                'message' => 'Your crypto balance is too low.'
+            ]);
         }
         
         //return response()->json(['enough' => true]);
@@ -74,6 +85,14 @@ class AuctionController extends Controller
                 if ($bidAmount > $bid->amount)
                 {
                     $newBid = false;
+                }
+                else
+                {
+                    // bid too small
+                    return response()->json([
+                        'enough' => false,
+                        'message' => 'Your bid is too small.'
+                    ]);
                 }
             }
 
@@ -100,22 +119,72 @@ class AuctionController extends Controller
 
         AuctionController::handleBid($auction, $newBid, $bidAmount);
         
+        // if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
+        // {
+        //     // Expired
+        //     AuctionController::cancelAuction($auction);
+
+        //     return response()->json([
+        //         'enough' => false,
+        //         'message' => 'The body part offer has expired. The auction has been canceled.'
+        //     ]);
 
 
-        return response()->json(['enough' => true]);
+        // } 
+
+        $response = AuctionController::handleAuction($auction);
+        if ($response) return $response;
+
+
+        // Not expired
+        
+
+
+
+        return response()->json([
+            'enough' => false,
+            'message' => 'The end of method.'
+        ]);
     }
 
-    public static function checkBodyPartExpiration()
+    public static function cancelAuction(Auction $auction)
+    {
+        $auction->status = AuctionStatus::CANCELED;
+        $auction->save();
+    }
+
+    public static function handleAuction(Auction $auction, bool $isTriggeredByUser = true)
+    {
+        if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
+        {
+            // Expired
+            // 35
+            AuctionController::cancelAuction($auction);
+            
+            // 38-39
+            return response()->json([
+                'enough' => false,
+                'message' => 'The body part offer has expired. The auction has been canceled.'
+            ]);
+        }
+
+        // body part is valid
+        // is triggered by user...
+    }
+
+    public static function checkAuction()
     {
         // Working code
-        // $activeAuctions = Auction::where('status', AuctionStatus::ACTIVE)->get();
+        $activeAuctions = Auction::where('status', AuctionStatus::ACTIVE)->get();
 
-        // foreach ($activeAuctions as $auction) {
-        //     if ($auction->ends_at <= now()) {
-        //         $auction->status = AuctionStatus::WON;
-        //         $auction->save();
-        //     }
-        // }
+        foreach ($activeAuctions as $auction) 
+        {
+            AuctionController::handleAuction($auction, false);
+                //$auction->status = AuctionStatus::WON;
+                //$auction->save();
+        }
+
+
 
         
     }
