@@ -20,6 +20,7 @@ Route::get('/courier/main', function () {
     return view('Courier.main');
 });
 Route::get('/courier/deliveries', [DeliveryReservationController::class, 'index'])->name('courier.delivery.index');
+Route::get('/courier/delivery/{id}', [DeliveryReservationController::class, 'show'])->name('courier.delivery.info');
 
 // Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);
