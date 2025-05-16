@@ -114,7 +114,11 @@ class BodyPartController extends Controller
             'participant_count' => 0
         ]);
 
-        return redirect()->back()->with('message', 'Body part offer created successfully.');
+        $offers = BodyPartOffer::with('bodyPartType')
+        ->where('status', BodyPartOfferStatus::NOT_ACCEPTED)
+        ->get();
+
+        return redirect()->route('body_part.index')->with('message', 'Body part offer created successfully');
     }
     
     public function show($id)

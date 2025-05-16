@@ -14,7 +14,7 @@
             <ul>
                 <li><a href="{{ route('crypto_wallet.create') }}">Add crypto wallet</a></li>
                 <li><a href="{{ route('body_part.index') }}">View body part list</a></li>
-                <li><a href="{{ route('orders.index') }}">Mano užsakymai</a></li>
+                <li><a href="{{ route('orders.index') }}">My orders</a></li>
             </ul>
         </nav>
     </div>

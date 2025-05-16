@@ -37,4 +37,4 @@ Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show'
 Route::put('/orders/{id}/confirm-delivery', [OrderController::class, 'confirmDelivery'])->name('orders.confirm-delivery');
 
  // gal šitaip logiškiau daryti su main page, vietoj to, kad įdėti į kokį nors controllerį?
-Route::get('/supplier', function() { return view('Supplier.main'); })->name('supplier.home');
+Route::get('/supplier-main', function() { return view('Supplier.main'); })->name('supplier.home');

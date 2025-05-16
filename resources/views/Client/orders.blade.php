@@ -1,7 +1,7 @@
 <x-layout>
     <div class="body-part-type-box-container">
         <div class="body-part-type-box info" style="border: none;">
-            <h1>Mano užsakymai</h1>
+            <h1>My orders</h1>
 
 
         @if (session('error'))
@@ -11,16 +11,16 @@
         @endif
 
         @if($orders->isEmpty())
-            <p>Jūs dar neturite jokių užsakymų.</p>
+            <p>You don't have any orders currently</p>
         @else
             <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
                 <thead>
                     <tr style="background-color: #f2f2f2;">
-                        <th style="padding: 12px; border: 1px solid #ddd;">Užsakymo ID</th>
-                        <th style="padding: 12px; border: 1px solid #ddd;">Data</th>
-                        <th style="padding: 12px; border: 1px solid #ddd;">Kaina</th>
-                        <th style="padding: 12px; border: 1px solid #ddd;">Būsena</th>
-                        <th style="padding: 12px; border: 1px solid #ddd;">Veiksmai</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">Order ID</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">Date</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">Price</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">State</th>
+                        <th style="padding: 12px; border: 1px solid #ddd;">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -31,18 +31,18 @@
                             <td style="padding: 12px; border: 1px solid #ddd;">{{ number_format($order->total_price, 2) }} €</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">
                                 @if($order->status->value == 'unpaid')
-                                    <span style="color: #e74c3c;">Neapmokėtas</span>
+                                    <span style="color: #e74c3c;">Unpaid</span>
                                 @elseif($order->status->value == 'in_delivery')
-                                    <span style="color: #3498db;">Pristatomas</span>
+                                    <span style="color: #3498db;">Delivering</span>
                                 @elseif($order->status->value == 'completed')
-                                    <span style="color: #2ecc71;">Užbaigtas</span>
+                                    <span style="color: #2ecc71;">Finished</span>
                                 @elseif($order->status->value == 'canceled')
-                                    <span style="color: #7f8c8d;">Atšauktas</span>
+                                    <span style="color: #7f8c8d;">Canceled</span>
                                 @endif
                             </td>
                             <td style="padding: 12px; border: 1px solid #ddd;">
                                 <a href="{{ route('orders.show', $order->id) }}">
-                                    <button class="crud-button show">Detalės</button>
+                                    <button class="crud-button show">Details</button>
                                 </a>
                             </td>
                         </tr>

@@ -48,7 +48,6 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with('bodyPartOffer')
-                    ->latest() // naujausi užsakymai pirmi
                     ->get();
         
         return view('Client.orders', compact('orders'));
