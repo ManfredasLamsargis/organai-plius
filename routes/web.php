@@ -4,6 +4,7 @@ use App\Http\Controllers\BodyPartTypeController;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\BodyPartController;
 use App\Http\Controllers\Client\AuctionController;
+use App\Http\Controllers\Shared\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,5 +32,9 @@ Route::get('/offers/{id}/auction', [BodyPartController::class, 'redirectToAuctio
 Route::post('/auctions/{auction}/check-balance', [AuctionController::class, 'checkBidBalance']);
 Route::resource('auctions', AuctionController::class);
 
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::put('/orders/{id}/confirm-delivery', [OrderController::class, 'confirmDelivery'])->name('orders.confirm-delivery');
 
-
+ // gal šitaip logiškiau daryti su main page, vietoj to, kad įdėti į kokį nors controllerį?
+Route::get('/supplier', function() { return view('Supplier.main'); })->name('supplier.home');

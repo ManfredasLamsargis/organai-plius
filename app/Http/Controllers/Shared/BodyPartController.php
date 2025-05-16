@@ -87,7 +87,7 @@ class BodyPartController extends Controller
     public function index()
     {
         $offers = BodyPartOffer::with('bodyPartType')
-        ->where('status', BodyPartOfferStatus::NOT_RESERVED)
+        ->where('status', BodyPartOfferStatus::NOT_ACCEPTED)
         ->get();
 
         return view('Client.body_part_list', compact('offers'));
@@ -120,7 +120,7 @@ class BodyPartController extends Controller
     public function show($id)
     {
         $offer = BodyPartOffer::with('bodyPartType')
-        ->where('status', BodyPartOfferStatus::NOT_RESERVED)
+        ->where('status', BodyPartOfferStatus::NOT_ACCEPTED)
         ->findOrFail($id);
 
         return view('Client.body_part', compact('offer'));
