@@ -14,8 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        \App\Models\User::factory(10)->create(); // creates 10 random users
 
+<<<<<<< HEAD
         // \App\Models\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
@@ -23,6 +24,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             BodyPartOfferSeeder::class,
             DeliverySeeder::class,
+=======
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => bcrypt('password'), // optional
+>>>>>>> client
         ]);
     }
 }

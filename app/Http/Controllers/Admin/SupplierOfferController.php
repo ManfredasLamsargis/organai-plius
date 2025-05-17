@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Models\BodyPartOffer;
 use App\Models\Auction;
 use App\Http\Controllers\Controller;
+use App\Models\BodyPartType;
 use Illuminate\Http\Request;
+use App\Enums\BodyPartOfferStatus;
 
 class SupplierOfferController extends Controller
 {
@@ -60,12 +62,13 @@ class SupplierOfferController extends Controller
         $supplier_offer->update(['state' => 'accepted']);
 
         // 2. Create related auction
+        // TODO_JULIUS
         Auction::create([
-            'body_part_offer_id' => $supplier_offer->id,
-            'minimal_bid' => $supplier_offer->price, // or adjust logic here
-            'state' => 'not_reserved',
+            'minimum_bid' => $validated['price'] + 1,
             'start_time' => now(),
-            'finish_time' => now()->addHours(24) // optional
+            'end_time' => now()->addHour(),
+            'status' => AuctionStatus::NOT_STARTED,
+            'participant_count' => 0
         ]);
 
         //return redirect()->route('supplier-offers.index')->with('message', 'Offer accepted and auction created.');

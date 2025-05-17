@@ -2,29 +2,35 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Enums\BodyPartOfferStatus;
 
 class BodyPartOffer extends Model
 {
     use HasFactory;
+    public $timestamps = false;
 
-    protected $fillable = ['price', 'received_date', 'description', 'state', 'type_id', 'auction_id', 'order_id', 'provider_id'];
+    protected $fillable = [
+        'price',
+        'available_at',
+        'description',
+        'status',
+        'last_updated_at',
+        'body_part_type_id'
+    ];
 
-    public function type()
+    protected $casts = [
+        'status' => BodyPartOfferStatus::class
+    ];
+
+    public function bodyPartType()
     {
         return $this->belongsTo(BodyPartType::class);
     }
+
     public function auction()
     {
-        return $this->hasOne(Auction::class, 'body_part_offer_id');
+        return $this->hasOne(Auction::class);
     }
-    /*public function order()
-    {
-        return $this->belongsTo(Order::class);
-    }
-    public function provider()
-    {
-        return $this->belongsTo(Supplier::class);
-    }*/
 }
