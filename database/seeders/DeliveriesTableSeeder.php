@@ -16,25 +16,23 @@ class DeliveriesTableSeeder extends Seeder
      */
     public function run()
     {
-        for ($i = 0; $i < 10; $i++) {
-            $pickup = Coordinate::create([
-                'latitude' => fake()->latitude(30, 50),
-                'longitude' => fake()->longitude(-125, -70)
-            ]);
+        // Mano namas
+        $pickup = Coordinate::create([
+            'latitude' => 54.891989432731,
+            'longitude' => 24.0015467116237
+        ]);
 
-            $drop = Coordinate::create([
-                'latitude' => fake()->latitude(30, 50),
-                'longitude' => fake()->longitude(-125, -70)
-            ]);
+        // Krautuvėlė pas Rasą
+        $drop = Coordinate::create([
+            'latitude' => 54.86437219575025, 
+            'longitude' => 23.986040543171335
+        ]);
 
-            $currentLocation = null;
-
-            Delivery::create([
-                'pickup_point_coordinate_id' => $pickup->id,
-                'drop_point_coordinate_id' => $drop->id,
-                'current_location_coordinate_id' => $currentLocation?->id,
-                'generated_route_id' => null,
-            ]);
-        }
+        Delivery::create([
+            'pickup_point_coordinate_id' => $pickup->id,
+            'drop_point_coordinate_id' => $drop->id,
+            'current_location_coordinate_id' => null,
+            'generated_route_id' => null,
+        ]);
     }
 }
