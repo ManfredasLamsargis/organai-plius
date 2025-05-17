@@ -7,10 +7,12 @@
         <p><strong>Body Part Type:</strong> {{ $offer->bodyPartType->name ?? 'N/A' }}</p>
 
         <div class="body-part-type-buttons-container" style="margin-top: 20px;">
-            <a href="{{ route('body_part.redirectAuction', $offer->id) }}">
+            <!-- Place a bid and run the auction -->
+            <a href="{{ route('body_part.redirectToAuction', $offer->id) }}">
                 <button class="crud-button edit">Place bid</button>
             </a>
 
+            <!-- Buy body part immediately -->
             <form 
                 action="{{ route('body_part.buy', $offer->id) }}" 
                 method="POST" 
@@ -41,7 +43,7 @@
             </script>
         @endif
 
-        <a href="{{ url('/body_part') }}">
+        <a href="{{ url()->previous() }}">
             <button class="crud-button go-back">Go Back</button>
         </a>
     </div>

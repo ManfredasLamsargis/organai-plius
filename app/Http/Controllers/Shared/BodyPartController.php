@@ -17,7 +17,7 @@ class BodyPartController extends Controller
 {
     public static function checkBodyPartExpiration($offerId)
     {
-        $offer = BodyPartOffer::find($offerId);
+        $offer = BodyPartOffer::findOrFail($offerId);
 
         if (!$offer || !$offer->available_at) {
             return false;
@@ -59,7 +59,7 @@ class BodyPartController extends Controller
     public function buy($id)
     {
         $multiplier = 1.5;
-        $offer = BodyPartOffer::findOrFail($id);
+        $offer = BodyPartOffer::find($id);
         $price = $offer->price * $multiplier;
     
         $canBuy = CryptoWalletController::getBalance(1, $price);
@@ -87,8 +87,16 @@ class BodyPartController extends Controller
     public function index()
     {
         $offers = BodyPartOffer::with('bodyPartType')
-        ->where('status', BodyPartOfferStatus::NOT_RESERVED)
-        ->get();
+            ->join('body_part_types', 'body_part_offers.body_part_type_id', '=', 'body_part_types.id')
+            ->where('body_part_offers.status', BodyPartOfferStatus::NOT_RESERVED)
+            ->whereNotNull('body_part_offers.available_at')
+            ->whereNotNull('body_part_types.expiration_period_minutes')
+            ->whereRaw("
+                body_part_offers.available_at + (body_part_types.expiration_period_minutes || ' minutes')::interval >= now()
+            ")
+            ->select('body_part_offers.*')
+            ->get();
+
 
         return view('Client.body_part_list', compact('offers'));
     }
@@ -119,8 +127,10 @@ class BodyPartController extends Controller
     
     public function show($id)
     {
-        $offer = BodyPartOffer::with('bodyPartType')
-        ->where('status', BodyPartOfferStatus::NOT_RESERVED)
+        $offer = BodyPartOffer::with('bodyPartType')->whereIn('status', [
+            BodyPartOfferStatus::NOT_RESERVED,
+            BodyPartOfferStatus::SOLD
+        ])
         ->findOrFail($id);
 
         return view('Client.body_part', compact('offer'));
@@ -128,19 +138,32 @@ class BodyPartController extends Controller
 
     public function agreeToBuy(Request $request, $id)
     {
+        // 20
         $offer = BodyPartOffer::findOrFail($id);
+
         $amount = $offer->price * 1.5;
-    
+        
+        // 22
         $paymentResult = CryptoWalletController::performPayment($amount);
     
-        if ($paymentResult['success']) {
+        if ($paymentResult['success']) 
+        {    
+            // 25
+            BodyPartOffer::findOrFail($id)->update([
+                'status' => \App\Enums\BodyPartOfferStatus::SOLD
+            ]);
             $orderController = new OrderController();
+            // 27
             $orderController->updateStatus($offer, OrderStatus::IN_DELIVERY);
 
             return back()->with('message', 'Payment successful.');
         }
-    
-        return back()->with('message', 'Payment failed.');
+        else 
+        {
+            $orderController = new OrderController();
+            $orderController->updateStatus($offer, OrderStatus::CANCELED);
+            return back()->with('message', 'Payment failed. Order cancelled');
+        }
     }
 
     public static function updateToSold(BodyPartOffer $offer)

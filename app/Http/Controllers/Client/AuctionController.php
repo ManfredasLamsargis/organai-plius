@@ -15,6 +15,15 @@ use App\Enums\OrderStatus;
 
 class AuctionController extends Controller
 {
+    public function index()
+    {
+        $auctions = Auction::with('bodyPartOffer')
+            ->where('status', AuctionStatus::ACTIVE)
+            ->get();
+
+        return view('Client.auction_list', compact('auctions'));
+    }
+
     public function show($id)
     {
         $auction = Auction::with('bodyPartOffer')->findOrFail($id);
@@ -195,7 +204,8 @@ class AuctionController extends Controller
         {
             // For now it is static since we do not have an auth
             $auction->leader_id = 1;
-            $auction->end_time = \Carbon\Carbon::parse($auction->end_time)->addMinutes(30);
+            //$auction->end_time = \Carbon\Carbon::parse($auction->end_time)->addMinutes(30);
+            $auction->end_time = now()->addMinutes(30);
             // 37
             $auction->save();
 

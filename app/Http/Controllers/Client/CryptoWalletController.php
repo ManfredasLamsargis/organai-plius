@@ -26,10 +26,12 @@ class CryptoWalletController extends Controller
 
     public function store(Request $request)
     {
+        // 6
         $data = $request->validate([
             'address' => 'required|string|max:255'
         ]);
-    
+        
+        // 7
         $wallet = CryptoWallet::create([
             'address' => $data['address'],
             'authorized' => false,
@@ -37,9 +39,12 @@ class CryptoWalletController extends Controller
         ]);
     
         $provider = new CryptoProviderAPI();
+        // 9
         $walletInfo = $provider->sendCryptoWalletData($wallet->address);
 
-        if ($walletInfo['authorized']) {
+        if ($walletInfo['authorized']) 
+        {
+            // 13
             $wallet->update([
                 'authorized' => true,
                 'balance' => $walletInfo['balance']
@@ -49,16 +54,6 @@ class CryptoWalletController extends Controller
         }
     
         return redirect()->back()->with('message', 'Wallet address saved, but not authorized.');
-    }
-
-    public function processReturnedState(Request $request)
-    {
-        return response()->json(['status' => 'processed']);
-    }
-
-    public function disconnectCryptoWallet()
-    {
-        return redirect()->back()->with('message', 'Wallet disconnected.');
     }
 
     public static function getBalance($id, $amount = -1): bool|float

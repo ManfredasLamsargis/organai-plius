@@ -9,8 +9,11 @@
             <p><strong>Description:</strong> {{ $auction->bodyPartOffer->description }}</p>
             <p><strong>Price:</strong> {{ $auction->bodyPartOffer->price }}</p>
             @if($auction->status->value == "active")
-                <p style="color: green;"><strong>ACTIVE</strong></p>
+            <p style="color: green;"><strong>ACTIVE</strong></p>
             @endif
+            <p style="padding: 12px; border: 1px solid #ddd;">
+            <strong>Auction ends at:</strong> {{ $auction->end_time->addHours(3)->format('Y-m-d H:i') }}
+            </p>
         @else
             <p>No associated offer found.</p>
         @endif
@@ -32,15 +35,19 @@
         </form>
 
         <script>
-            async function placeBid() {
+            async function placeBid() 
+            {
                 const bid = parseFloat(document.getElementById('bidAmount').value);
-                if (!bid) {
+                if (!bid) 
+                {
                     alert('Please enter a valid amount.');
                     return false;
                 }
 
                 const confirmResult = confirm(`You are about to place a €${bid} bid. This action cannot be canceled. Continue?`);
-                if (!confirmResult) {
+
+                if (!confirmResult)
+                {
                     return false;
                 }
 
@@ -64,8 +71,18 @@
         </script>
 
 
-        <a href="{{ route('body_part.index') }}">
+        <!-- <a href="{{ route('body_part.index') }}">
             <button class="crud-button go-back">Back to offers</button>
-        </a>
+        </a> -->
+        @php
+            $cameFromAuctionList = str_contains(url()->previous(), route('auction.getAuctionList'));
+        @endphp
+
+        @if($cameFromAuctionList)
+            <a href="{{ url()->previous() }}">
+                <button class="crud-button go-back">Go Back</button>
+            </a>
+        @endif
+
     </div>
 </x-layout>
