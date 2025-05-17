@@ -8,7 +8,7 @@ class CryptoProviderAPI
 {
     public function sendCryptoWalletData(string $address): array
     {
-        $response = Http::get('http://127.0.0.1:9000', [
+        $response = Http::get('http://127.0.0.1:8000', [
             'address' => $address
         ]);
 
@@ -21,7 +21,7 @@ class CryptoProviderAPI
     {
         \Log::info('Sending payment request with amount: ' . $amount);
         
-        $response = Http::post('http://127.0.0.1:9000/payment', [
+        $response = Http::post('http://127.0.0.1:8000/payment', [
             'amount' => $amount
         ]);
 

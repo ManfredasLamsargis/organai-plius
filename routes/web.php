@@ -8,6 +8,7 @@ use App\Http\Controllers\DeliveryManagingController;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\BodyPartController;
 use App\Http\Controllers\Client\AuctionController;
+use App\Http\Controllers\Shared\OrderController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -49,5 +50,9 @@ Route::resource('auctions', AuctionController::class);
 Route::get('/auctions', [AuctionController::class, 'index'])->name('auction.getAuctionList');
 Route::get('/auctions/{id}', [AuctionController::class, 'show'])->name('auction.getAuction');
 
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
+Route::put('/orders/{id}/confirm-delivery', [OrderController::class, 'confirmDelivery'])->name('orders.confirm-delivery');
 
-
+ // gal šitaip logiškiau daryti su main page, vietoj to, kad įdėti į kokį nors controllerį?
+Route::get('/supplier-main', function() { return view('Supplier.main'); })->name('supplier.home');

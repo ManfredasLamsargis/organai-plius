@@ -88,7 +88,7 @@ class BodyPartController extends Controller
     {
         $offers = BodyPartOffer::with('bodyPartType')
             ->join('body_part_types', 'body_part_offers.body_part_type_id', '=', 'body_part_types.id')
-            ->where('body_part_offers.status', BodyPartOfferStatus::NOT_RESERVED)
+            ->where('body_part_offers.status', BodyPartOfferStatus::NOT_ACCEPTED)
             ->whereNotNull('body_part_offers.available_at')
             ->whereNotNull('body_part_types.expiration_period_minutes')
             ->whereRaw("
@@ -122,13 +122,17 @@ class BodyPartController extends Controller
             'participant_count' => 0
         ]);
 
-        return redirect()->back()->with('message', 'Body part offer created successfully.');
+        $offers = BodyPartOffer::with('bodyPartType')
+        ->where('status', BodyPartOfferStatus::NOT_ACCEPTED)
+        ->get();
+
+        return redirect()->route('body_part.index')->with('message', 'Body part offer created successfully');
     }
     
     public function show($id)
     {
         $offer = BodyPartOffer::with('bodyPartType')->whereIn('status', [
-            BodyPartOfferStatus::NOT_RESERVED,
+            BodyPartOfferStatus::NOT_ACCEPTED,
             BodyPartOfferStatus::SOLD
         ])
         ->findOrFail($id);
