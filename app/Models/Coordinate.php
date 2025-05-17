@@ -9,5 +9,6 @@ class Coordinate extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['latitude', 'longitude'];
+    protected $fillable = ['route_id', 'latitude', 'longitude'];
+
 }
