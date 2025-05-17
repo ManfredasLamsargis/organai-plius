@@ -12,14 +12,10 @@ class DeliveryManagingController extends Controller
 {
     public function index() 
     {
-        //throw new NotImplementedException("TODO: Manfredas Lamsargis");
-        $delivery = Delivery::where('responsible_courier_id', auth()->id())
-                            ->whereNotIn('state', ['finished', 'cancelled'])
-                            ->first();
+        // TODO MANFREDAS: review
+        $delivery = Delivery::first();
 
         return view('delivery_manage.index', compact('delivery'));
-
-        //CIA DALYKAI KAS PAS MANE BUVO, GAL PADES
     }
 
     public function startDelivery(Request $request)
