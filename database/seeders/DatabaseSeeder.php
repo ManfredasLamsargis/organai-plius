@@ -16,20 +16,16 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory(10)->create(); // creates 10 random users
 
-<<<<<<< HEAD
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        // Admin
         $this->call([
-            BodyPartOfferSeeder::class,
             DeliverySeeder::class,
-=======
+        ]);
+
+        // Client
         \App\Models\User::factory()->create([
             'name' => 'Test User',
             'email' => 'test@example.com',
             'password' => bcrypt('password'), // optional
->>>>>>> client
         ]);
     }
 }
