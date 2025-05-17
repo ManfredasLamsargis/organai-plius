@@ -4,7 +4,7 @@
     <h2>Delivery Hash: {{ $delivery->id }}</h2>
 
     <p><strong>Pickup point:</strong> {{ $delivery->pickupPoint->latitude }}, {{ $delivery->pickupPoint->longitude }}</p>
-    <p><strong>Drop:</strong> {{ $delivery->dropPoint->latitude }}, {{ $delivery->dropPoint->longitude }}</p>
+    <p><strong>Drop point:</strong> {{ $delivery->dropPoint->latitude }}, {{ $delivery->dropPoint->longitude }}</p>
 
     <div id="map" style="height: 400px; width: 100%; margin-bottom: 20px;"></div>
 
