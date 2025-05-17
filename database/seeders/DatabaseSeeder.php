@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
         // Admin
         $this->call([
             DeliverySeeder::class,
+            BodyPartTypeSeeder::class,
         ]);
 
         // Client
