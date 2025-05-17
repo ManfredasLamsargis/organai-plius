@@ -27,6 +27,6 @@ class DeliveryReservationController extends Controller
 
         return redirect()
             ->route('courier.delivery.info', ['id' => $id])
-            ->with('status', 'Delivery accepted. Route is being generated...');
+            ->with('message', 'Delivery accepted. Route is being generated...');
     }
 }
