@@ -17,7 +17,8 @@ class Auction extends Model
         'start_time',
         'end_time',
         'status',
-        'participant_count'
+        'participant_count',
+        'body_part_offer_id'
     ];
 
     protected $casts = [

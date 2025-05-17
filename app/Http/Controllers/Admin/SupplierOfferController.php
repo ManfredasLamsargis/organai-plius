@@ -64,7 +64,6 @@ class SupplierOfferController extends Controller
         $supplier_offer->update(['status' => BodyPartOfferStatus::NOT_RESERVED]);
 
         // 2. Create related auction
-        // TODO_JULIUS
 
 
         Auction::create([
@@ -72,7 +71,8 @@ class SupplierOfferController extends Controller
             'start_time' => now(),
             'end_time' => now()->addHour(),
             'status' => AuctionStatus::NOT_STARTED,
-            'participant_count' => 0
+            'participant_count' => 0,
+            'body_part_offer_id' => $supplier_offer->id
         ]);
 
         
