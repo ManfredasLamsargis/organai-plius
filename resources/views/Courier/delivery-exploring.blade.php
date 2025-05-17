@@ -9,7 +9,7 @@
         <table border="1" cellpadding="8" cellspacing="0">
             <thead>
                 <tr>
-                    <th>Delivery Hash</th>
+                    <th>Hash</th>
                     <th>Pickup point</th>
                     <th>Drop point</th>
                     <th>Actions</th>
