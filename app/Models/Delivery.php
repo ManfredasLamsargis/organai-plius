@@ -31,4 +31,9 @@ class Delivery extends Model
     {
         return $this->belongsTo(Route::class, 'generated_route_id');
     }
+
+    public function generatedRoute()
+    {
+        return $this->belongsTo(Route::class, 'generated_route_id');
+    }
 }
