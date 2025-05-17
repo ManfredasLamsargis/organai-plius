@@ -26,10 +26,8 @@ class DeliveryController extends Controller
     return $delivery;
   }
 
-  public static function update($id)
+  public static function update(Delivery $delivery)
   {
-    $delivery = Delivery::findOrFail($id);
-    $delivery->state = DeliveryState::ReservedForGeneration;
     $delivery->save();
     return true;
   }

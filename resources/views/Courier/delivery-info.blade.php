@@ -40,8 +40,13 @@
     </style>
     
     @if ($delivery->state === \App\Enums\DeliveryState::ReservedForGeneration)
-        <div class="loading">Route is being generated...</div>
-    @endif
+    <div class="loading">Route is being generated...</div>
+    <script>
+        setTimeout(() => {
+            location.reload();
+        }, 4000); // Wait longer than sleep(3)
+    </script>
+@endif
 @endsection
 
 @section('scripts')

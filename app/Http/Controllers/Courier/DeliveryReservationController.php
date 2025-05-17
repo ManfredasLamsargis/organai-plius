@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Courier;
 
+use App\Enums\DeliveryState;
 use Illuminate\Http\Request;
 use Nette\NotImplementedException;
 use App\Http\Controllers\Controller;
@@ -23,9 +24,10 @@ class DeliveryReservationController extends Controller
 
     public function reserve($id)
     {
-        DeliveryController::update($id);
-
         $delivery = DeliveryController::find($id);
+        $delivery->state = DeliveryState::ReservedForGeneration;
+
+        DeliveryController::update($delivery);
 
         // Does it wait here or what?
         RouteGeneratingController::generate($delivery);
