@@ -13,7 +13,8 @@
         <nav>
             <ul>
                 <li><a href="{{ route('crypto_wallet.create') }}">Add crypto wallet</a></li>
-                <li><a href="{{ route('body_part.index') }}">View body part list</a></li>
+                <li><a href="{{ route('body_part.client_index') }}">View body part list</a></li>
+                <li><a href="{{ route('auction.getAuctionList') }}">View auction list</a></li>
                 <li><a href="{{ route('orders.index') }}">My orders</a></li>
             </ul>
         </nav>

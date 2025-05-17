@@ -12,7 +12,7 @@
         </header>
         <nav>
             <ul>
-                <li><a href="{{ route('body_part.index') }}">My body part offers</a></li>
+                <li><a href="{{ route('body_part.supplier_index') }}">My body part offers</a></li>
                 <li><a href="{{ route('body_part.create') }}">Add body part offer</a></li>
             </ul>
         </nav>
