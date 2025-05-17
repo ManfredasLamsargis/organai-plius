@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BodyPartTypeController;
 use App\Http\Controllers\Admin\DeliveriesController;
 use App\Http\Controllers\Admin\SupplierOfferController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\MessageController;
 use App\Http\Controllers\DeliveryManagingController;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\BodyPartController;
@@ -56,3 +57,7 @@ Route::put('/orders/{id}/confirm-delivery', [OrderController::class, 'confirmDel
 
  // gal šitaip logiškiau daryti su main page, vietoj to, kad įdėti į kokį nors controllerį?
 Route::get('/supplier-main', function() { return view('Supplier.main'); })->name('supplier.home');
+
+// Auth
+Route::get('/messages', [MessageController::class, 'index'])->name('Messages');
+Route::resource('message', MessageController::class);

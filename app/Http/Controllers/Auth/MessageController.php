@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class MessageController extends Controller
 {
@@ -15,6 +16,6 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::all();
-        return view('message.index')->with('messages', $messages);
+        return view('Auth.index')->with('messages', $messages);
     }
 }
