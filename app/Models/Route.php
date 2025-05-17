@@ -9,6 +9,8 @@ class Route extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['state'];
+
     public function coordinates()
     {
         return $this->hasMany(Coordinate::class);
