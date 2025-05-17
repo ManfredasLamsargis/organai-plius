@@ -14,9 +14,15 @@ export function renderMap(containerId, pickup, drop) {
     L.polyline([pickup, drop], { color: 'blue' }).addTo(map);
 }
 
-// MANFREDAS_TODO: show real coordinate values
-if (document.getElementById('map')) {
-    const pickup = [54.6872, 25.2797];
-    const drop = [55.1694, 23.8813];
-    renderMap("map", pickup, drop);
+const el = document.getElementById('map');
+if (el) {
+    const pickup = [
+        parseFloat(el.dataset.pickupLat),
+        parseFloat(el.dataset.pickupLng),
+    ];
+    const drop = [
+        parseFloat(el.dataset.dropLat),
+        parseFloat(el.dataset.dropLng),
+    ];
+    renderMap('map', pickup, drop);
 }
