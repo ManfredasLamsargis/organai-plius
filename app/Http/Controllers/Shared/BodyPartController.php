@@ -84,6 +84,22 @@ class BodyPartController extends Controller
         return view('Supplier.add_body_part_offer', compact('bodyPartTypes'));
     }
 
+    public function index()
+    {
+        $offers = BodyPartOffer::with('bodyPartType')
+            ->join('body_part_types', 'body_part_offers.body_part_type_id', '=', 'body_part_types.id')
+            ->where('body_part_offers.status', BodyPartOfferStatus::NOT_RESERVED)
+            ->whereNotNull('body_part_offers.available_at')
+            ->whereNotNull('body_part_types.expiration_period_minutes')
+            ->whereRaw("
+                body_part_offers.available_at + (body_part_types.expiration_period_minutes || ' minutes')::interval >= now()
+            ")
+            ->select('body_part_offers.*')
+            ->get();
+
+        return view('Client.body_part_list', compact('offers'));
+    }
+
     public function indexClient()
     {
         $offers = BodyPartOffer::with('bodyPartType')
@@ -130,13 +146,14 @@ class BodyPartController extends Controller
     
         BodyPartOffer::create($validated);
 
-        return redirect()->route('body_part.index')->with('message', 'Body part offer created successfully');
+        return redirect()->route('body_part.supplier_index')->with('message', 'Body part offer created successfully');
     }
     
     public function show($id)
     {
         $offer = BodyPartOffer::with('bodyPartType')->whereIn('status', [
-            BodyPartOfferStatus::NOT_ACCEPTED,
+            BodyPartOfferStatus::NOT_RESERVED,
+            //BodyPartOfferStatus::NOT_ACCEPTED,
             BodyPartOfferStatus::SOLD
         ])
         ->findOrFail($id);
