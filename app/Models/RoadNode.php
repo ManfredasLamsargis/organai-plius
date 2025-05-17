@@ -12,4 +12,10 @@ class RoadNode extends Model
     protected $keyType = 'int';
 
     use HasFactory;
+
+    public static function findNearestTo($lat, $lon)
+    {
+        return self::orderByRaw('POWER(latitude - ?, 2) + POWER(longitude - ?, 2)', [$lat, $lon])->first();
+    }
+
 }

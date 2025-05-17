@@ -26,5 +26,12 @@ class RouteGeneratingController extends Controller
         }
 
         $path = RouteController::findOptimalPath($startNode->id, $endNode->id);
+
+        if ($path === null) {
+            logger("No possible route found");
+            return;
+        }
+
+        RouteController::storePath($delivery, $path);
     }
 }
