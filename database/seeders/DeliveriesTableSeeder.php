@@ -18,7 +18,7 @@ class DeliveriesTableSeeder extends Seeder
     {
         for ($i = 0; $i < 10; $i++) {
             $pickup = Coordinate::create([
-                'latitude' => fake()->latitude(30, 50),    // e.g., somewhere in the US
+                'latitude' => fake()->latitude(30, 50),
                 'longitude' => fake()->longitude(-125, -70)
             ]);
 

@@ -16,11 +16,6 @@ class DatabaseSeeder extends Seeder
     {
         \App\Models\User::factory(10)->create(); // creates 10 random users
 
-        // Admin
-        $this->call([
-            DeliverySeeder::class,
-        ]);
-
         // Client
         \App\Models\User::factory()->create([
             'name' => 'Test User',
