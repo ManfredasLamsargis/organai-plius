@@ -27,5 +27,10 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
             'password' => bcrypt('password'), // optional
         ]);
+
+        // Courier
+        $this->call([
+            DeliveriesTableSeeder::class,
+        ]);
     }
 }
