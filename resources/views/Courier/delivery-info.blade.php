@@ -1,6 +1,11 @@
 @extends('Courier.layout')
 
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-info">
+            {{ session('status') }}
+        </div>
+    @endif
     <h2>Delivery Hash: {{ $delivery->id }}</h2>
 
     <p><strong>Pickup point:</strong> {{ $delivery->pickupPoint->latitude }}, {{ $delivery->pickupPoint->longitude }}</p>

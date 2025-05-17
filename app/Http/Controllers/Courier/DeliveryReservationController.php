@@ -24,6 +24,9 @@ class DeliveryReservationController extends Controller
     public function reserve($id)
     {
         DeliveryController::update($id);
-        throw new NotImplementedException('TODO: Manfredas Lamsargis');
+
+        return redirect()
+            ->route('courier.delivery.info', ['id' => $id])
+            ->with('status', 'Delivery accepted. Route is being generated...');
     }
 }

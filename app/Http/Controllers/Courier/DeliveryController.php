@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Courier;
 use App\Http\Controllers\Controller;
 use Nette\NotImplementedException;
 use App\Models\Delivery;
+use App\Enums\DeliveryState;
+use App\Http\Controllers\Courier\RouteGeneratingController;
 
 class DeliveryController extends Controller
 {
@@ -26,6 +28,12 @@ class DeliveryController extends Controller
 
   public static function update($id)
   {
-    throw new NotImplementedException('TODO: Manfredas Lamsargis');
+    $delivery = Delivery::findOrFail($id);
+    $delivery->state = DeliveryState::ReservedForGeneration;
+    $delivery->save();
+
+    RouteGeneratingController::generate($delivery);
+
+    return true;
   }
 }
