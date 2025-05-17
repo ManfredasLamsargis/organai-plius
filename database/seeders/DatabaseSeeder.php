@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
         // Courier
         $this->call([
             DeliveriesTableSeeder::class,
+            RoadNodeSeeder::class,
+            RoadEdgeSeeder::class,
         ]);
     }
 }
