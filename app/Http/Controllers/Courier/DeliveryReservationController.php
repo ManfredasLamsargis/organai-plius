@@ -25,6 +25,11 @@ class DeliveryReservationController extends Controller
     {
         DeliveryController::update($id);
 
+        $delivery = DeliveryController::find($id);
+
+        // Does it wait here or what?
+        RouteGeneratingController::generate($delivery);
+
         return redirect()
             ->route('courier.delivery.info', ['id' => $id])
             ->with('message', 'Delivery accepted. Route is being generated...');

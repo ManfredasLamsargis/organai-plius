@@ -26,6 +26,22 @@
 
     <br>
     <a href="{{ route('courier.delivery.index') }}">Back to list</a>
+
+    <!-- TODO_MANFREDAS_LAMSARGIS-->
+    <style>
+        .loading {
+            font-weight: bold;
+            color: blue;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% { opacity: 0.4; }
+        }
+    </style>
+    
+    @if ($delivery->state === \App\Enums\DeliveryState::ReservedForGeneration)
+        <div class="loading">Route is being generated...</div>
+    @endif
 @endsection
 
 @section('scripts')

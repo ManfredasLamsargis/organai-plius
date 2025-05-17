@@ -31,9 +31,6 @@ class DeliveryController extends Controller
     $delivery = Delivery::findOrFail($id);
     $delivery->state = DeliveryState::ReservedForGeneration;
     $delivery->save();
-
-    RouteGeneratingController::generate($delivery);
-
     return true;
   }
 }
