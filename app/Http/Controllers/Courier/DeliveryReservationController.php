@@ -18,8 +18,15 @@ class DeliveryReservationController extends Controller
     public function show($id)
     {
         $delivery = DeliveryController::find($id);
+        $routeCoordinates = [];
 
-        return view('courier.delivery-info', compact('delivery'));
+        if ($delivery->route) {
+            $routeCoordinates = $delivery->route->coordinates()
+                ->orderBy('id')
+                ->get(['latitude', 'longitude']);
+        }
+
+        return view('courier.delivery-info', compact('delivery', 'routeCoordinates'));
     }
 
     public function reserve($id)

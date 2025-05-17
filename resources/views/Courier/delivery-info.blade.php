@@ -19,6 +19,14 @@
         style="height: 400px; width: 100%; margin-bottom: 20px;">
     </div>
 
+    <script>
+        const routeCoords = [
+            @foreach($routeCoordinates as $coord)
+                [{{ $coord->latitude }}, {{ $coord->longitude }}],
+            @endforeach
+        ];
+    </script>
+
     <form action="{{ route('courier.reserve', ['id' => $delivery->id]) }}" method="POST">
         @csrf
         <button type="submit">Accept</button>
@@ -51,4 +59,16 @@
 
 @section('scripts')
     @vite(['resources/js/map.js'])
+
+    <script>
+        const mapEl = document.getElementById('map');
+        const pickup = [parseFloat(mapEl.dataset.pickupLat), parseFloat(mapEl.dataset.pickupLng)];
+        const drop = [parseFloat(mapEl.dataset.dropLat), parseFloat(mapEl.dataset.dropLng)];
+
+        if (typeof renderMap === 'function') {
+            renderMap("map", pickup, drop, routeCoords || []);
+        } else {
+            console.warn("renderMap is not available.");
+        }
+    </script>
 @endsection

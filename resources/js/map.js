@@ -1,8 +1,8 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-export function renderMap(containerId, pickup, drop) {
-    const map = L.map(containerId);
+export function renderMap(containerId, pickup, drop, routeCoords = []) {
+    const map = L.map(containerId).setView(pickup, 13);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
@@ -11,11 +11,12 @@ export function renderMap(containerId, pickup, drop) {
     L.marker(pickup).addTo(map).bindPopup("Pickup Point");
     L.marker(drop).addTo(map).bindPopup("Drop Point");
 
-    L.polyline([pickup, drop], { color: 'blue' }).addTo(map);
-
-    const bounds = L.latLngBounds([pickup, drop]);
-    map.fitBounds(bounds, { padding: [50, 50] });
+    if (routeCoords.length > 0) {
+        L.polyline(routeCoords, { color: 'blue' }).addTo(map).bindPopup("Generated Route");
+    }
 }
+
+window.renderMap = renderMap;
 
 const el = document.getElementById('map');
 if (el) {
