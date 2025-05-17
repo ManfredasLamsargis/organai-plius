@@ -39,9 +39,15 @@ Route::get('/client-main', [CryptoWalletController::class, 'main']);
 Route::resource('crypto_wallet', CryptoWalletController::class);
 Route::post('crypto_wallet/create', [CryptoWalletController::class, 'create'])->name('crypto_wallet.submit');
 Route::get('/body-part/{id}', [BodyPartController::class, 'show'])->name('body_part.getBodyPart');
-Route::get('/body-part', [BodyPartController::class, 'index'])->name('body_part.getBodyPartList');
+//Route::get('/body-part', [BodyPartController::class, 'index'])->name('body_part.getBodyPartList');
 Route::get('/crypto-wallet/form', [CryptoWalletController::class, 'getCryptoWalletForm'])->name('crypto_wallet.getCryptoWalletForm');
+
+Route::get('supplier/body_part', [BodyPartController::class, 'indexSupplier'])->name('body_part.supplier_index');
+Route::get('client/body_part', [BodyPartController::class, 'indexClient'])->name('body_part.client_index');
+Route::post('body_part/create', [BodyPartController::class, 'create'])->name('body_part.create');
 Route::resource('body_part', BodyPartController::class);
+
+
 Route::post('/body-part/buy/{id}', [BodyPartController::class, 'buy'])->name('body_part.buy');
 Route::post('/body-part/agree/{id}', [BodyPartController::class, 'agreeToBuy'])->name('body_part.agree');
 Route::get('/offers/{id}/auction', [BodyPartController::class, 'redirectToAuction'])->name('body_part.redirectToAuction');
