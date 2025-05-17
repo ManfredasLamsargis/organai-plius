@@ -12,13 +12,13 @@
         <p><strong>Delivery State:</strong> {{ $delivery->state }}</p>
         <p><strong>Drop-off Location:</strong> {{ $delivery->drop_point_id }}</p>
 
-        <form method="POST" action="{{ route('delivery.start') }}">
+        <form method="POST" action="{{ route('delivery.startDelivery') }}">
             @csrf
             <input type="hidden" name="delivery_id" value="{{ $delivery->id }}">
             <button type="submit" class="">Start Delivery</button>
         </form>
 
-        <form method="POST" action="{{ route('delivery.finish') }}">
+        <form method="POST" action="{{ route('delivery.finishDelivery') }}">
             @csrf
             <input type="hidden" name="delivery_id" value="{{ $delivery->id }}">
             <button type="submit" class="">Finish Delivery</button>

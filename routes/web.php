@@ -25,8 +25,8 @@ Route::post('supplier-offers/{supplier_offer}/accept', [SupplierOfferController:
 Route::resource('deliveries', DeliveriesController::class)->only(['index', 'show']);
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 Route::get('/courier/delivery/manage', [DeliveryManagingController::class, 'index'])->name('delivery.manage');
-Route::post('/courier/delivery/start', [DeliveryManagingController::class, 'start'])->name('delivery.start');
-Route::post('/courier/delivery/finish', [DeliveryManagingController::class, 'finish'])->name('delivery.finish');
+Route::post('/courier/delivery/startDelivery', [DeliveryManagingController::class, 'startDelivery'])->name('delivery.startDelivery');
+Route::post('/courier/delivery/finishDelivery', [DeliveryManagingController::class, 'finishDelivery'])->name('delivery.finishDelivery');
 
 // Courier part
 Route::get('/courier/main', function () { return view('Courier.main'); });
