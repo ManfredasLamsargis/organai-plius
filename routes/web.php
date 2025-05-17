@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BodyPartTypeController;
 use App\Http\Controllers\Admin\DeliveriesController;
 use App\Http\Controllers\Admin\SupplierOfferController;
 use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\MessageController;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\BodyPartController;
 use App\Http\Controllers\Client\AuctionController;
@@ -54,3 +55,7 @@ Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show'
 Route::put('/orders/{id}/confirm-delivery', [OrderController::class, 'confirmDelivery'])->name('orders.confirm-delivery');
 
 Route::get('/supplier-main', function() { return view('Supplier.main'); })->name('supplier.home');
+
+// Auth
+Route::get('/messages', [MessageController::class, 'index'])->name('Messages');
+Route::resource('message', MessageController::class);
