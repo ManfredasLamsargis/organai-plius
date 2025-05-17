@@ -1,17 +1,13 @@
 <?php
 
-<<<<<<< HEAD
 use App\Http\Controllers\Admin\BodyPartTypeController;
 use App\Http\Controllers\Admin\DeliveriesController;
 use App\Http\Controllers\Admin\SupplierOfferController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\DeliveryManagingController;
-=======
-use App\Http\Controllers\BodyPartTypeController;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\BodyPartController;
 use App\Http\Controllers\Client\AuctionController;
->>>>>>> client
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,20 +23,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BodyPartTypeController::class, 'index'])->name('Body Part Types');
 Route::resource('body_part_type', BodyPartTypeController::class);
-<<<<<<< HEAD
 
-
+// Admin part
 Route::resource('supplier-offers', SupplierOfferController::class)->only(['index', 'show']);
 Route::post('supplier-offers/{supplier_offer}/accept', [SupplierOfferController::class, 'accept'])->name('supplier-offers.accept');
-
 Route::resource('deliveries', DeliveriesController::class)->only(['index', 'show']);
-
 Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
-
 Route::get('/courier/delivery/manage', [DeliveryManagingController::class, 'index'])->name('delivery.manage');
 Route::post('/courier/delivery/start', [DeliveryManagingController::class, 'start'])->name('delivery.start');
 Route::post('/courier/delivery/finish', [DeliveryManagingController::class, 'finish'])->name('delivery.finish');
-=======
+
 // Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);
 Route::resource('crypto_wallet', CryptoWalletController::class);
@@ -59,4 +51,3 @@ Route::get('/auctions/{id}', [AuctionController::class, 'show'])->name('auction.
 
 
 
->>>>>>> client
