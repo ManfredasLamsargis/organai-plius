@@ -114,13 +114,6 @@ class BodyPartController extends Controller
         $validated['last_updated_at'] = now();
     
         BodyPartOffer::create($validated);
-        Auction::create([
-            'minimum_bid' => $validated['price'] + 1,
-            'start_time' => now(),
-            'end_time' => now()->addHour(),
-            'status' => AuctionStatus::NOT_STARTED,
-            'participant_count' => 0
-        ]);
 
         $offers = BodyPartOffer::with('bodyPartType')
         ->where('status', BodyPartOfferStatus::NOT_ACCEPTED)

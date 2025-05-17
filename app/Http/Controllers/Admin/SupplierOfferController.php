@@ -61,7 +61,7 @@ class SupplierOfferController extends Controller
     public function accept(BodyPartOffer $supplier_offer)
     {
         // 1. Update state of offer
-        $supplier_offer->update(['state' => 'accepted']);
+        $supplier_offer->update(['status' => BodyPartOfferStatus::NOT_RESERVED]);
 
         // 2. Create related auction
         // TODO_JULIUS
@@ -75,6 +75,7 @@ class SupplierOfferController extends Controller
             'participant_count' => 0
         ]);
 
+        
         //return redirect()->route('supplier-offers.index')->with('message', 'Offer accepted and auction created.');
 
         $offers = BodyPartOffer::where('status', BodyPartOfferStatus::NOT_ACCEPTED)->get();
