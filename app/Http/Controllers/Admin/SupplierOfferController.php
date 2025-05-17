@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\BodyPartOffer;
 use App\Models\Auction;
+use App\Http\Controllers\Client\AuctionController;
 use App\Http\Controllers\Controller;
 use App\Models\BodyPartType;
 use Illuminate\Http\Request;
 use App\Enums\BodyPartOfferStatus;
+use App\Enums\AuctionStatus;
 
 class SupplierOfferController extends Controller
 {
@@ -18,7 +20,7 @@ class SupplierOfferController extends Controller
      */
     public function index()
     {
-        $offers = BodyPartOffer::where('state', 'not_accepted')->get();
+        $offers = BodyPartOffer::where('status', BodyPartOfferStatus::NOT_ACCEPTED)->get();
         return view('supplier_offer.index', compact('offers'));
     }
 
@@ -63,8 +65,10 @@ class SupplierOfferController extends Controller
 
         // 2. Create related auction
         // TODO_JULIUS
+
+
         Auction::create([
-            'minimum_bid' => $validated['price'] + 1,
+            'minimum_bid' => $supplier_offer['price'] + 1,
             'start_time' => now(),
             'end_time' => now()->addHour(),
             'status' => AuctionStatus::NOT_STARTED,
@@ -73,7 +77,7 @@ class SupplierOfferController extends Controller
 
         //return redirect()->route('supplier-offers.index')->with('message', 'Offer accepted and auction created.');
 
-        $offers = BodyPartOffer::where('state', 'not_accepted')->get();
+        $offers = BodyPartOffer::where('status', BodyPartOfferStatus::NOT_ACCEPTED)->get();
         return view('supplier_offer.index', [
         'offers' => $offers,
         'message' => 'Offer accepted and auction created.'
