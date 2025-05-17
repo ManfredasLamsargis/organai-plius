@@ -2,7 +2,7 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 export function renderMap(containerId, pickup, drop) {
-    const map = L.map(containerId).setView(pickup, 10);
+    const map = L.map(containerId);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '© OpenStreetMap contributors'
@@ -12,6 +12,9 @@ export function renderMap(containerId, pickup, drop) {
     L.marker(drop).addTo(map).bindPopup("Drop Point");
 
     L.polyline([pickup, drop], { color: 'blue' }).addTo(map);
+
+    const bounds = L.latLngBounds([pickup, drop]);
+    map.fitBounds(bounds, { padding: [50, 50] });
 }
 
 const el = document.getElementById('map');
