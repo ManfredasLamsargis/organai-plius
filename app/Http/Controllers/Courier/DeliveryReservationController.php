@@ -29,11 +29,11 @@ class DeliveryReservationController extends Controller
 
         DeliveryController::update($delivery);
 
-        // Does it wait here or what?
+        // TODO_MANFREDAS_LAMSARGIS: no concurrency here, why it needs to be so hard, I want to go back to C++ :(
         RouteGeneratingController::generate($delivery);
 
         return redirect()
             ->route('courier.delivery.info', ['id' => $id])
-            ->with('message', 'Delivery accepted. Route is being generated...');
+            ->with('message', 'Delivery accepted. Route generated.');
     }
 }
