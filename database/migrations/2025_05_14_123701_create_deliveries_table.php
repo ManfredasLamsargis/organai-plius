@@ -20,6 +20,15 @@ return new class extends Migration
             $table->foreignId('current_location_coordinate_id')->nullable()->constrained('coordinates');
             // MANFREDAS_TODO: create add a responsible courier foreign key
             $table->foreignId('generated_route_id')->nullable()->constrained('routes');
+            $table->enum('state', [
+                'unaccepted',
+                'reserved_for_generation',
+                'not_started',
+                'in_progress',
+                'cancelled',
+                'delivered_unclaimed',
+                'delivered_claimed'
+            ])->default('unaccepted');
             $table->timestamps();
         });
     }
