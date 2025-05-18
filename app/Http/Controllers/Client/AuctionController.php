@@ -139,14 +139,14 @@ class AuctionController extends Controller
 
     public static function handleAuction(Auction $auction, bool $isTriggeredByUser = true)
     {
-        // 25
+        // 27
         if (BodyPartController::checkBodyPartExpiration($auction->body_part_offer_id)) 
         {
             // Expired
-            // 31
+            // 33
             AuctionController::cancelAuction($auction);
             
-            // 34-35
+            // 36-37
             return response()->json([
                 'enough' => false,
                 'message' => 'The body part offer has expired. The auction has been canceled.'
@@ -154,46 +154,46 @@ class AuctionController extends Controller
         }
 
         // body part is valid
-        // 36
+        // 38
         $triggerType = AuctionController::isTriggeredByTimeOrBid($auction, $isTriggeredByUser);
         if ($triggerType == AuctionTriggerType::TIME) // time has run out for the next bid
         {
-            // 41
+            // 43
             $bodyPartOffer = BodyPartOffer::find($auction->body_part_offer_id);
             $orderController = new OrderController();
-            // 43
+            // 45
             $orderController->store($bodyPartOffer);
-            // 47
+            // 49
             $paymentResult = CryptoWalletController::performPayment($auction->minimum_bid);
             
             // Payment successful
             if ($paymentResult['success'])
             {
                 $orderController = new OrderController();
-                // 48
+                // 50
                 $orderController->updateStatus($bodyPartOffer, OrderStatus::IN_DELIVERY);
-                // 53
+                // 55
                 BodyPartController::updateToSold($bodyPartOffer);
 
                 $auction->status = AuctionStatus::WON;
-                // 57
+                // 59
                 $auction->save();
 
-                // 59-60
+                // 61-62
                 return back()->with('message', 'Payment successful. You won the auction!');
             }
             else // Payment unsuccessful
             {
                 $auction->status = AuctionStatus::NOT_STARTED;
-                // 61
+                // 63
                 $auction->save();
                 $orderController = new OrderController();
-                // 63
+                // 65
                 $orderController->updateStatus($bodyPartOffer, OrderStatus::CANCELED);
-                // 67
+                // 69
                 BodyPartController::unreserve($bodyPartOffer);
 
-                // 71-72
+                // 73-74
                 return response()->json([
                     'enough' => false,
                     'message' => 'Payment unsuccessful'
@@ -206,11 +206,11 @@ class AuctionController extends Controller
             $auction->leader_id = 1;
             //$auction->end_time = \Carbon\Carbon::parse($auction->end_time)->addMinutes(30);
             $auction->end_time = now()->addMinutes(30);
-            // 37
+            // 39
             $auction->save();
 
             // triggered by user
-            // 39-40
+            // 41-42
             return response()->json([
                 'enough' => true,
                 'message' => 'New bid accepted and registered successfully.'

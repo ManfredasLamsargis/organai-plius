@@ -61,11 +61,6 @@
                 });
 
                 const result = await response.json();
-                // if (!result.enough) {
-                //     alert('Insufficient crypto balance.');
-                // } else {
-                //     alert('You have enough balance.');
-                // }
                 alert(result.message || (result.enough ? 'Success' : 'Something went wrong.'));
             }
         </script>
