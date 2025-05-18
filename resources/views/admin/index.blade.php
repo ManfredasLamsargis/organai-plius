@@ -13,5 +13,11 @@
                 <button class="">View Deliveries</button>
             </a>
         </div>
+
+        <div>
+            <a href="{{ route('body_part_type.index') }}">
+                <button class="">View body part types</button>
+            </a>
+        </div>
     </div>
 </x-layout>
