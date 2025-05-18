@@ -19,7 +19,11 @@ class DeliveryReservationController extends Controller
     {
         $delivery = DeliveryController::find($id);
 
-        return view('courier.delivery-info', compact('delivery'));
+         $routeCoordinates = $delivery->route
+        ? $delivery->route->coordinates()->orderBy('id')->get(['latitude', 'longitude'])
+        : collect();
+
+         return view('courier.delivery-info', compact('delivery', 'routeCoordinates'));
     }
 
     public function reserve($id)
@@ -30,7 +34,7 @@ class DeliveryReservationController extends Controller
         DeliveryController::update($delivery);
 
         // TODO_MANFREDAS_LAMSARGIS: no concurrency here, why it needs to be so hard, I want to go back to C++ :(
-        RouteGeneratingController::generate($delivery);
+        $generatedPath = RouteGeneratingController::generate($delivery);
 
         return redirect()
             ->route('courier.delivery.info', ['id' => $id])

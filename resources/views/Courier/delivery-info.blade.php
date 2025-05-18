@@ -28,6 +28,14 @@
     <a href="{{ route('courier.delivery.index') }}">Back to list</a>
 
     <!-- TODO_MANFREDAS_LAMSARGIS-->
+    <script>
+        const routeCoords = [
+            @foreach ($routeCoordinates as $coord)
+                [{{ $coord->latitude }}, {{ $coord->longitude }}],
+            @endforeach
+        ];
+    </script>
+
     <style>
         .loading {
             font-weight: bold;
@@ -51,4 +59,24 @@
 
 @section('scripts')
     @vite(['resources/js/map.js'])
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const el = document.getElementById('map');
+            const pickup = [
+                parseFloat(el.dataset.pickupLat),
+                parseFloat(el.dataset.pickupLng)
+            ];
+            const drop = [
+                parseFloat(el.dataset.dropLat),
+                parseFloat(el.dataset.dropLng)
+            ];
+
+            if (typeof window.renderMap === 'function') {
+                window.renderMap('map', pickup, drop, routeCoords);
+            } else {
+                console.warn('renderMap is not defined');
+            }
+        });
+    </script>
 @endsection

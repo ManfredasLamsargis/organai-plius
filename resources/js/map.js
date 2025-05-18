@@ -1,7 +1,7 @@
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
-export function renderMap(containerId, pickup, drop) {
+export function renderMap(containerId, pickup, drop, route = []) {
     const map = L.map(containerId);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -11,21 +11,15 @@ export function renderMap(containerId, pickup, drop) {
     L.marker(pickup).addTo(map).bindPopup("Pickup Point");
     L.marker(drop).addTo(map).bindPopup("Drop Point");
 
-    L.polyline([pickup, drop], { color: 'blue' }).addTo(map);
-
-    const bounds = L.latLngBounds([pickup, drop]);
-    map.fitBounds(bounds, { padding: [50, 50] });
+    if (route.length > 0) {
+        L.polyline(route, { color: 'blue' }).addTo(map);
+        map.fitBounds(route, { padding: [50, 50] });
+    } else {
+        // fallback to just pickup/drop line
+        L.polyline([pickup, drop], { color: 'gray', dashArray: '4' }).addTo(map);
+        const bounds = L.latLngBounds([pickup, drop]);
+        map.fitBounds(bounds, { padding: [50, 50] });
+    }
 }
 
-const el = document.getElementById('map');
-if (el) {
-    const pickup = [
-        parseFloat(el.dataset.pickupLat),
-        parseFloat(el.dataset.pickupLng),
-    ];
-    const drop = [
-        parseFloat(el.dataset.dropLat),
-        parseFloat(el.dataset.dropLng),
-    ];
-    renderMap('map', pickup, drop);
-}
+window.renderMap = renderMap;

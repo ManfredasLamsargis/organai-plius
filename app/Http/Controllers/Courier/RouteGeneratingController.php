@@ -33,5 +33,7 @@ class RouteGeneratingController extends Controller
         }
 
         RouteController::storePath($delivery, $path);
+
+        return $path;
     }
 }
