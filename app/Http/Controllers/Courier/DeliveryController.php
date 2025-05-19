@@ -43,4 +43,18 @@ class DeliveryController extends Controller
       return view('courier.delivery-route', compact('delivery', 'routeCoordinates'));
   }
 
+  public function showLatestRoute()
+  {
+      $delivery = Delivery::whereIn('state', [\App\Enums\DeliveryState::NotStarted])->latest()->first();
+
+      if (!$delivery) {
+          return redirect()->route('courier.main')->with('message', 'No reserved deliveries available.');
+      }
+
+      $route = $delivery->route;
+      $routeCoordinates = $route ? $route->coordinates : [];
+
+      return view('courier.delivery-route', compact('delivery', 'routeCoordinates'));
+  }
+
 }

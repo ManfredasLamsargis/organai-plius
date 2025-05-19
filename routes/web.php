@@ -35,7 +35,7 @@ Route::get('/courier/deliveries', [DeliveryReservationController::class, 'index'
 Route::get('/courier/delivery/{id}', [DeliveryReservationController::class, 'show'])->name('courier.delivery.info');
 Route::post('/courier/reserve/{id}', [DeliveryReservationController::class, 'reserve'])->name('courier.reserve');
 Route::get('/courier/delivery-route/{id}', [DeliveryController::class, 'showRoute'])->name('courier.delivery-route');
-
+Route::get('/courier/delivery-route', [DeliveryController::class, 'showLatestRoute'])->name('courier.delivery-route');
 
 // Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);
