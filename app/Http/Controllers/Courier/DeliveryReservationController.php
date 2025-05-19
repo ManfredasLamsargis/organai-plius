@@ -33,11 +33,17 @@ class DeliveryReservationController extends Controller
 
         DeliveryController::update($delivery);
 
-        // TODO_MANFREDAS_LAMSARGIS: no concurrency here, why it needs to be so hard, I want to go back to C++ :(
+        // no concurrency here, why it needs to be so hard, I want to go back to C++ :(
         $generatedPath = RouteGeneratingController::generate($delivery);
 
-        return redirect()
-            ->route('courier.delivery.info', ['id' => $id])
-            ->with('message', 'Delivery accepted. Route generated.');
+        if ($generatedPath != null) {
+            $delivery->state = DeliveryState::NotStarted;
+            $delivery->save();
+            return redirect()
+                ->route('courier.delivery.info', ['id' => $id])
+                ->with('message', 'Delivery accepted. Route generated.');
+        } else {
+            return view('courier.delivery.info', ['id' => $id])->with('message', 'Failed to generate delivery route.');
+        }
     }
 }

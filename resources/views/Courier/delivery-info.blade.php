@@ -27,7 +27,6 @@
     <br>
     <a href="{{ route('courier.delivery.index') }}">Back to list</a>
 
-    <!-- TODO_MANFREDAS_LAMSARGIS-->
     <script>
         const routeCoords = [
             @foreach ($routeCoordinates as $coord)
@@ -52,7 +51,7 @@
     <script>
         setTimeout(() => {
             location.reload();
-        }, 4000); // Wait longer than sleep(3)
+        }, 4000);
     </script>
 @endif
 @endsection

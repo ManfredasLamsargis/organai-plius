@@ -15,7 +15,6 @@ export function renderMap(containerId, pickup, drop, route = []) {
         L.polyline(route, { color: 'blue' }).addTo(map);
         map.fitBounds(route, { padding: [50, 50] });
     } else {
-        // fallback to just pickup/drop line
         L.polyline([pickup, drop], { color: 'gray', dashArray: '4' }).addTo(map);
         const bounds = L.latLngBounds([pickup, drop]);
         map.fitBounds(bounds, { padding: [50, 50] });
