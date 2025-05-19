@@ -26,7 +26,7 @@
     </script>
 
     <br>
-    <a href="{{ route('courier.main') }}">Back main panel</a>
+    <a href="{{ route('courier.main') }}">Main panel</a>
 @endsection
 
 @section('scripts')

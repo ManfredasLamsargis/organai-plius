@@ -28,5 +28,7 @@
                 @endforeach
             </tbody>
         </table>
+        <br>
+        <a href="{{ route('courier.main') }}">Main panel</a>
     @endif
 @endsection
