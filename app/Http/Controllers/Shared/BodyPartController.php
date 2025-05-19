@@ -11,6 +11,8 @@ use App\Enums\BodyPartOfferStatus;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\OrderController;
 use App\Enums\OrderStatus;
+use App\Models\Delivery;
+use App\Models\Coordinate;
 use App\Enums\AuctionStatus;
 
 class BodyPartController extends Controller
@@ -47,35 +49,42 @@ class BodyPartController extends Controller
 
     public function redirectToAuction($offerId)
     {
-        $offer = BodyPartOffer::with('auction')->findOrFail($offerId);
+        // 13
+        $offer = BodyPartOffer::with('auction')->find($offerId);
 
         if (!$offer->auction) {
             return back()->with('message', 'This offer does not have an associated auction.');
         }
 
+        // 15
         return redirect()->route('auctions.show', ['auction' => $offer->auction->id]);
     }
 
     public function buy($id)
     {
         $multiplier = 1.5;
+        // 3
         $offer = BodyPartOffer::find($id);
         $price = $offer->price * $multiplier;
-    
+        
+        // 5
         $canBuy = CryptoWalletController::getBalance(1, $price);
     
-        if (!$canBuy) {
+        if (!$canBuy) 
+        {
+            // 10-11
             return back()->with('message', 'Insufficient balance to buy this offer.');
         }
     
         $orderController = new OrderController();
+        // 12
         $orderController->store($offer, $multiplier);
         
+        // 16-17
         return back()->with([
             'offerId' => $id,
             'needsConfirmation' => true
         ]);
-        //return back()->with('message', 'Order created. Proceed to payment.');
     }
 
     public function create()
@@ -86,6 +95,7 @@ class BodyPartController extends Controller
 
     public function index()
     {
+        // 18
         $offers = BodyPartOffer::with('bodyPartType')
             ->join('body_part_types', 'body_part_offers.body_part_type_id', '=', 'body_part_types.id')
             ->where('body_part_offers.status', BodyPartOfferStatus::NOT_RESERVED)
@@ -97,11 +107,13 @@ class BodyPartController extends Controller
             ->select('body_part_offers.*')
             ->get();
 
+        // 20
         return view('Client.body_part_list', compact('offers'));
     }
 
     public function indexClient()
     {
+        // 3
         $offers = BodyPartOffer::with('bodyPartType')
             ->join('body_part_types', 'body_part_offers.body_part_type_id', '=', 'body_part_types.id')
             ->where('body_part_offers.status', BodyPartOfferStatus::NOT_RESERVED)
@@ -113,6 +125,7 @@ class BodyPartController extends Controller
             ->select('body_part_offers.*')
             ->get();
 
+        // 5
         return view('Client.body_part_list', compact('offers'));
     }
 
@@ -151,20 +164,21 @@ class BodyPartController extends Controller
     
     public function show($id)
     {
+        // 8
         $offer = BodyPartOffer::with('bodyPartType')->whereIn('status', [
             BodyPartOfferStatus::NOT_RESERVED,
-            //BodyPartOfferStatus::NOT_ACCEPTED,
             BodyPartOfferStatus::SOLD
         ])
-        ->findOrFail($id);
-
+        ->find($id);
+        
+        // 10
         return view('Client.body_part', compact('offer'));
     }
 
     public function agreeToBuy(Request $request, $id)
     {
         // 20
-        $offer = BodyPartOffer::findOrFail($id);
+        $offer = BodyPartOffer::find($id);
 
         $amount = $offer->price * 1.5;
         
@@ -181,14 +195,40 @@ class BodyPartController extends Controller
             // 27
             $orderController->updateStatus($offer, OrderStatus::IN_DELIVERY);
 
+            // 31
+            BodyPartController::createDelivery();
+
             return back()->with('message', 'Payment successful.');
         }
         else 
         {
             $orderController = new OrderController();
+            // 34
             $orderController->updateStatus($offer, OrderStatus::CANCELED);
             return back()->with('message', 'Payment failed. Order cancelled');
         }
+    }
+
+    public static function createDelivery()
+    {
+        // Delivery creation
+        $pickup = Coordinate::create([
+            'latitude' => 54.89968425015072,
+            'longitude' => 23.961933117768396
+        ]);
+
+        $pickup = Coordinate::find($pickup->id);
+        $drop = Coordinate::create([
+            'latitude' => 54.9205441510663, 
+            'longitude' => 23.99381522946014
+        ]);
+        $drop = Coordinate::find($drop->id);
+        Delivery::create([
+            'pickup_point_coordinate_id' => $pickup->id,
+            'drop_point_coordinate_id' => $drop->id,
+            'current_location_coordinate_id' => null,
+            'generated_route_id' => null,
+        ]);
     }
 
     public static function updateToSold(BodyPartOffer $offer)

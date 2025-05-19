@@ -9,7 +9,11 @@ class Delivery extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'state'
+        'state',
+        'pickup_point_coordinate_id',
+        'drop_point_coordinate_id',
+        'current_location_coordinate_id',
+        'generated_route_id',
     ];
 
     public function pickupPoint()

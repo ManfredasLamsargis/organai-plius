@@ -17,16 +17,20 @@ class AuctionController extends Controller
 {
     public function index()
     {
+        // 3
         $auctions = Auction::with('bodyPartOffer')
             ->where('status', AuctionStatus::ACTIVE)
             ->get();
 
+        // 5
         return view('Client.auction_list', compact('auctions'));
     }
 
     public function show($id)
     {
-        $auction = Auction::with('bodyPartOffer')->findOrFail($id);
+        // 8
+        $auction = Auction::with('bodyPartOffer')->find($id);
+        // 10
         return view('Client.auction', compact('auction'));
     }
 
@@ -74,7 +78,7 @@ class AuctionController extends Controller
         // 6
         if (!CryptoWalletController::getBalance(1, $bidAmount)) 
         {
-            // 73-74
+            // 77-78
             return response()->json([
                 'enough' => false,
                 'message' => 'Your crypto balance insufficient'
@@ -179,21 +183,24 @@ class AuctionController extends Controller
                 // 59
                 $auction->save();
 
-                // 61-62
+                // 61
+                BodyPartController::createDelivery();
+
+                // 63-64
                 return back()->with('message', 'Payment successful. You won the auction!');
             }
             else // Payment unsuccessful
             {
                 $auction->status = AuctionStatus::NOT_STARTED;
-                // 63
+                // 65
                 $auction->save();
                 $orderController = new OrderController();
-                // 65
+                // 67
                 $orderController->updateStatus($bodyPartOffer, OrderStatus::CANCELED);
-                // 69
+                // 71
                 BodyPartController::unreserve($bodyPartOffer);
 
-                // 73-74
+                // 75-76
                 return response()->json([
                     'enough' => false,
                     'message' => 'Payment unsuccessful'
