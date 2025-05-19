@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 // Courier Subsystem
 use App\Http\Controllers\Courier\DeliveryManagingController;
 use App\Http\Controllers\Courier\DeliveryReservationController;
+use App\Http\Controllers\Courier\DeliveryController;
 
 
 Route::get('/', [BodyPartTypeController::class, 'index'])->name('Body Part Types');
@@ -29,10 +30,12 @@ Route::post('/courier/delivery/startDelivery', [DeliveryManagingController::clas
 Route::post('/courier/delivery/finishDelivery', [DeliveryManagingController::class, 'finishDelivery'])->name('delivery.finishDelivery');
 
 // Courier part
-Route::get('/courier/main', function () { return view('Courier.main'); });
+Route::get('/courier/main', function () { return view('Courier.main'); })->name('courier.main');
 Route::get('/courier/deliveries', [DeliveryReservationController::class, 'index'])->name('courier.delivery.index');
 Route::get('/courier/delivery/{id}', [DeliveryReservationController::class, 'show'])->name('courier.delivery.info');
 Route::post('/courier/reserve/{id}', [DeliveryReservationController::class, 'reserve'])->name('courier.reserve');
+Route::get('/courier/delivery-route/{id}', [DeliveryController::class, 'showRoute'])->name('courier.delivery-route');
+
 
 // Client part
 Route::get('/client-main', [CryptoWalletController::class, 'main']);

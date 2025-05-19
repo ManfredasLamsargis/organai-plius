@@ -40,10 +40,10 @@ class DeliveryReservationController extends Controller
             $delivery->state = DeliveryState::NotStarted;
             $delivery->save();
             return redirect()
-                ->route('courier.delivery.info', ['id' => $id])
+                ->route('courier.delivery-route', ['id' => $id])
                 ->with('message', 'Delivery accepted. Route generated.');
         } else {
-            return view('courier.delivery.info', ['id' => $id])->with('message', 'Failed to generate delivery route.');
+            return view('courier.delivery-info', ['id' => $id])->with('message', 'Failed to generate delivery route.');
         }
     }
 }

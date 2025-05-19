@@ -31,4 +31,16 @@ class DeliveryController extends Controller
     $delivery->save();
     return true;
   }
+
+  public function showRoute($id)
+  {
+      $delivery = DeliveryController::find($id);
+
+      // assuming route and related coordinates already exist
+      $route = $delivery->route;
+      $routeCoordinates = $route ? $route->coordinates : [];
+
+      return view('courier.delivery-route', compact('delivery', 'routeCoordinates'));
+  }
+
 }
