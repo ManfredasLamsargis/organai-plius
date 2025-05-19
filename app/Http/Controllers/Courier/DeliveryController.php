@@ -32,7 +32,6 @@ class DeliveryController extends Controller
   {
       $delivery = DeliveryController::find($id);
 
-      // assuming route and related coordinates already exist
       $route = $delivery->route;
       $routeCoordinates = $route ? $route->coordinates : [];
 
@@ -41,15 +40,7 @@ class DeliveryController extends Controller
 
   public function showLatestRoute()
   {
-      $delivery = Delivery::whereHas('route') // ensure route exists
-        ->where('state', \App\Enums\DeliveryState::NotStarted)
-        ->with('route')
-        ->orderByDesc(
-            Route::select('created_at')
-                ->whereColumn('routes.id', 'deliveries.generated_route_id')
-                ->limit(1)
-        )
-        ->first();
+      $delivery = DeliveryController::getLatestDelivery();
 
       if (!$delivery) {
           return redirect()->route('courier.main')->with('message', 'No reserved deliveries available.');
@@ -60,5 +51,19 @@ class DeliveryController extends Controller
 
       return view('courier.delivery-route', compact('delivery', 'routeCoordinates'));
   }
+
+  public static function getLatestDelivery()
+    {
+        return 
+        Delivery::whereHas('route') // ensure route exists
+            ->where('state', \App\Enums\DeliveryState::NotStarted)
+            ->with('route')
+            ->orderByDesc(
+                Route::select('created_at')
+                    ->whereColumn('routes.id', 'deliveries.generated_route_id')
+                    ->limit(1)
+            )
+        ->first();
+    }
 
 }

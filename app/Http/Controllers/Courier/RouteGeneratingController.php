@@ -20,17 +20,7 @@ class RouteGeneratingController extends Controller
         $startNode = RoadNode::findNearestTo($start->latitude, $start->longitude);
         $endNode = RoadNode::findNearestTo($end->latitude, $end->longitude);
 
-        if (!$startNode || !$endNode) {
-            logger("No valid start/end node found");
-            return;
-        }
-
         $path = RouteController::findOptimalPath($startNode->id, $endNode->id);
-
-        if ($path === null) {
-            logger("No possible route found");
-            return;
-        }
 
         RouteController::storePath($delivery, $path);
 
