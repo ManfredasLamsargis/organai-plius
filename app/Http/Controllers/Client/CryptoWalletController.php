@@ -25,40 +25,39 @@ class CryptoWalletController extends Controller
     }
 
     public function store(Request $request)
-    {
+    {        
+        $data = $request->input('address');
+
         // 6
-        $data = $request->validate([
-            'address' => 'required|string|max:255'
-        ]);
-        
-        // 7
         $wallet = CryptoWallet::create([
-            'address' => $data['address'],
+            'address' => $data,
             'authorized' => false,
             'balance' => 0
         ]);
     
         $provider = new CryptoProviderAPI();
-        // 9
+        // 8
         $walletInfo = $provider->sendCryptoWalletData($wallet->address);
 
         if ($walletInfo['authorized']) 
         {
-            // 13
+            // 12
             $wallet->update([
                 'authorized' => true,
                 'balance' => $walletInfo['balance']
             ]);
-    
+            
+            // 14-15
             return redirect()->back()->with('message', 'Wallet created and verified.');
         }
-    
+        
+        // 16-17
         return redirect()->back()->with('message', 'Wallet address saved, but not authorized.');
     }
 
     public static function getBalance($id, $amount = -1): bool|float
     {
-        $wallet = CryptoWallet::findOrFail($id);
+        $wallet = CryptoWallet::find($id);
     
         if ($amount == -1) {
             return $wallet->balance;

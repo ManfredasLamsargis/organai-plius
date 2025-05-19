@@ -19,7 +19,7 @@
                             <td style="padding: 12px; border: 1px solid #ddd;">{{ $offer->description }}</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">{{ $offer->bodyPartType->name ?? 'N/A' }}</td>
                             <td style="padding: 12px; border: 1px solid #ddd;">
-                                <a href="{{ route('body_part.show', $offer->id) }}">
+                                <a href="{{ route('body_part.getBodyPart', $offer->id) }}">
                                     <button class="crud-button show">More</button>
                                 </a>
                             </td>

@@ -8,7 +8,7 @@
 
         <div class="body-part-type-buttons-container" style="margin-top: 20px;">
             <!-- Place a bid and run the auction -->
-            <a href="{{ route('body_part.redirectToAuction', $offer->id) }}">
+            <a href="{{ route('body_part.participateInAuction', $offer->id) }}">
                 <button class="crud-button edit">Place bid</button>
             </a>
 
@@ -43,8 +43,7 @@
             </script>
         @endif
 
-        <!-- <a href="{{ url()->previous() }}"> -->
-        <a href="{{ "/body_part" }}">
+        <a href="{{ route('body_part.getBodyPartList') }}">
             <button class="crud-button go-back">Go Back</button>
         </a>
     </div>

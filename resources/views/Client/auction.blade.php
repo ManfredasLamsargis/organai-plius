@@ -65,10 +65,6 @@
             }
         </script>
 
-
-        <!-- <a href="{{ route('body_part.index') }}">
-            <button class="crud-button go-back">Back to offers</button>
-        </a> -->
         @php
             $cameFromAuctionList = str_contains(url()->previous(), route('auction.getAuctionList'));
         @endphp
