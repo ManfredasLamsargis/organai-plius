@@ -7,7 +7,7 @@
             {{ session('message') }}
         </div>
     @endif
-    <!-- MainCourierView::viewDeliveries() -->
+    <!-- MainCourierView::viewDeliveries() GetDelivery::1-->
     <form action="{{ route('courier.delivery.index') }}" method="GET">
         <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Available Deliveries

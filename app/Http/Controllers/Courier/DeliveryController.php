@@ -12,12 +12,7 @@ class DeliveryController extends Controller
 {
   public static function getAvailable()
   {
-    $deliveries = Delivery::with([
-        'pickupPoint',
-        'dropPoint',
-        'currentLocation'
-    ])->where('state', DeliveryState::Unaccepted)->get();
-
+    $deliveries = Delivery::getUnnaceptedDeliveries();
     return $deliveries;
   }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Enums\DeliveryState;
 
 class Delivery extends Model
 {
@@ -35,5 +36,14 @@ class Delivery extends Model
     public function generatedRoute()
     {
         return $this->belongsTo(Route::class, 'generated_route_id');
+    }
+
+    public static function getUnnaceptedDeliveries() 
+    {
+        return Delivery::with([
+            'pickupPoint',
+            'dropPoint',
+            'currentLocation'
+        ])->where('state', DeliveryState::Unaccepted)->get();
     }
 }

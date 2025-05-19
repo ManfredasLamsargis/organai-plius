@@ -38,7 +38,7 @@ class DeliveryReservationController extends Controller
 
         if ($generatedPath != null) {
             $delivery->state = DeliveryState::NotStarted;
-            $delivery->save();
+            DeliveryController::update($delivery);
             return redirect()
                 ->route('courier.delivery-route', ['id' => $id])
                 ->with('message', 'Delivery accepted. Route generated.');
