@@ -5,6 +5,7 @@ use App\Http\Controllers\Controller;
 use Nette\NotImplementedException;
 use App\Models\Delivery;
 use App\Enums\DeliveryState;
+use App\Models\Route;
 use App\Http\Controllers\Courier\RouteGeneratingController;
 
 class DeliveryController extends Controller
@@ -45,7 +46,15 @@ class DeliveryController extends Controller
 
   public function showLatestRoute()
   {
-      $delivery = Delivery::whereIn('state', [\App\Enums\DeliveryState::NotStarted])->latest()->first();
+      $delivery = Delivery::whereHas('route') // ensure route exists
+        ->where('state', \App\Enums\DeliveryState::NotStarted)
+        ->with('route')
+        ->orderByDesc(
+            Route::select('created_at')
+                ->whereColumn('routes.id', 'deliveries.generated_route_id')
+                ->limit(1)
+        )
+        ->first();
 
       if (!$delivery) {
           return redirect()->route('courier.main')->with('message', 'No reserved deliveries available.');
