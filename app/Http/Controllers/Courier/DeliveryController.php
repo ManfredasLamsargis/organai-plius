@@ -15,7 +15,7 @@ class DeliveryController extends Controller
         'pickupPoint',
         'dropPoint',
         'currentLocation'
-    ])->get();
+    ])->where('state', DeliveryState::Unaccepted)->get();
 
     return $deliveries;
   }
