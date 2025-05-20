@@ -29,6 +29,12 @@
             </tbody>
         </table>
         <br>
+        <form action="{{ route('courier.delivery.index') }}" method="GET" style="margin-bottom: 1rem;">
+            <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-3 rounded">
+                Refresh deliveries
+            </button>
+        </form>
+        <br>
         <a href="{{ route('courier.main') }}">Main panel</a>
     @endif
 @endsection
