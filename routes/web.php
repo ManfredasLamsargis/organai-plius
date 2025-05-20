@@ -4,7 +4,7 @@ use App\Http\Controllers\Admin\BodyPartTypeController;
 use App\Http\Controllers\Admin\DeliveriesController;
 use App\Http\Controllers\Admin\SupplierOfferController;
 use App\Http\Controllers\Admin\AdminController;
-use App\Http\Controllers\Auth\MessageController;
+use App\Http\Controllers\Auth\NotificationController;
 use App\Http\Controllers\Client\CryptoWalletController;
 use App\Http\Controllers\Shared\BodyPartController;
 use App\Http\Controllers\Client\AuctionController;
@@ -46,13 +46,10 @@ Route::get('/body-part/{id}', [BodyPartController::class, 'show'])->name('body_p
 //Route::get('/body-part', [BodyPartController::class, 'index'])->name('body_part.getBodyPartList');
 Route::get('/crypto-wallet/form', [CryptoWalletController::class, 'getCryptoWalletForm'])->name('crypto_wallet.getCryptoWalletForm');
 
-Route::resource('body_part', BodyPartController::class);
-Route::get('supplier/body_part', [BodyPartController::class, 'indexSupplier'])->name('body_part.supplier_index');
 Route::get('client/body_part', [BodyPartController::class, 'indexClient'])->name('body_part.getBodyPartList');
-Route::post('body_part/create', [BodyPartController::class, 'create'])->name('body_part.create');
 //Route::get('client/body_part', [BodyPartController::class, 'index'])->name('body_part.getBackToList');
 
-
+Route::resource('body_part', BodyPartController::class);
 
 Route::post('/body-part/buy/{id}', [BodyPartController::class, 'buy'])->name('body_part.buy');
 Route::post('/body-part/agree/{id}', [BodyPartController::class, 'agreeToBuy'])->name('body_part.agree');
@@ -62,12 +59,14 @@ Route::resource('auctions', AuctionController::class);
 Route::get('/auctions', [AuctionController::class, 'index'])->name('auction.getAuctionList');
 Route::get('/auctions/{id}', [AuctionController::class, 'show'])->name('auction.getAuction');
 
-Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
-Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.show');
-Route::put('/orders/{id}/confirm-delivery', [OrderController::class, 'confirmDelivery'])->name('orders.confirm-delivery');
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.getOrders');
+Route::get('/orders/{id}', [OrderController::class, 'show'])->name('orders.getOrder');
+Route::put('/orders/{id}/confirm-order', [OrderController::class, 'finishOrder'])->name('orders.confirmOrder');
 
 Route::get('/supplier-main', function() { return view('Supplier.main'); })->name('supplier.home');
+Route::get('supplier/body_part', [BodyPartController::class, 'indexSupplier'])->name('body_part.showBodyPartOffers');
+Route::post('body_part/create', [BodyPartController::class, 'create'])->name('body_part.addBodyPartOffer');
 
 // Auth
-Route::get('/messages', [MessageController::class, 'index'])->name('Messages');
-Route::resource('message', MessageController::class);
+Route::get('/notifications', [NotificationController::class, 'index'])->name('notifications.showNotifications');
+Route::resource('notification', NotificationController::class);

@@ -1,13 +1,13 @@
 <x-layout>
     <div>
         <div class="body-part-type-box-container">
-            @foreach ($messages as $message)
+            @foreach ($notifications as $notification)
                 <div class="body-part-type-box">
                     <h3>
-                        {{ $message->date }}
+                        {{ $notification->date }}
                     </h3>
                     <p>
-                        {{ $message->text }}
+                        {{ $notification->text }}
                     </p>
                 </div>
             @endforeach

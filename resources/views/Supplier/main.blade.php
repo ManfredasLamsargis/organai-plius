@@ -12,8 +12,9 @@
         </header>
         <nav>
             <ul>
-                <li><a href="{{ route('body_part.supplier_index') }}">My body part offers</a></li>
-                <li><a href="{{ route('body_part.create') }}">Add body part offer</a></li>
+                <li><a href="{{ route('body_part.showBodyPartOffers') }}">My body part offers</a></li>
+                <li><a href="{{ route('body_part.addBodyPartOffer') }}">Add body part offer</a></li>
+                <li><a href="{{ route('notifications.showNotifications') }}">Messages</a></li>
             </ul>
         </nav>
     </div>

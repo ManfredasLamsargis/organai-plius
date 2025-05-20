@@ -32,12 +32,12 @@
         </div>
 
         <div class="body-part-type-buttons-container" style="margin-top: 30px;">
-            <a href="{{ route('orders.index') }}">
+            <a href="{{ route('orders.getOrders') }}">
                 <button class="crud-button go-back">Back to order list</button>
             </a>
             
             @if($order->status->value == 'in_delivery')
-                <form action="{{ route('orders.confirm-delivery', $order->id) }}" method="POST" style="display: inline;">
+                <form action="{{ route('orders.confirmOrder', $order->id) }}" method="POST" style="display: inline;">
                     @csrf
                     @method('PUT')
                     <button type="submit" class="crud-button create">

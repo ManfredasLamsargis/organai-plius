@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         // Admin
         $this->call([
             BodyPartTypeSeeder::class,
-            MessageSeeder::class,
+            NotificationSeeder::class,
         ]);
 
         // Client

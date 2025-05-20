@@ -41,7 +41,7 @@
                                 @endif
                             </td>
                             <td style="padding: 12px; border: 1px solid #ddd;">
-                                <a href="{{ route('orders.show', $order->id) }}">
+                                <a href="{{ route('orders.getOrder', $order->id) }}">
                                     <button class="crud-button show">Details</button>
                                 </a>
                             </td>

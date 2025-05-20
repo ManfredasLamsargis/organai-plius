@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
-use App\Models\Message;
+use App\Models\Notification;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class MessageSeeder extends Seeder
+class NotificationSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class MessageSeeder extends Seeder
      */
     public function run()
     {
-        Message::factory()->count(5)->create();
+        Notification::factory()->count(5)->create();
     }
 }

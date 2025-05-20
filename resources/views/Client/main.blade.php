@@ -15,7 +15,7 @@
                 <li><a href="{{ route('crypto_wallet.getCryptoWalletForm') }}">Add crypto wallet</a></li>
                 <li><a href="{{ route('body_part.getBodyPartList') }}">View body part list</a></li>
                 <li><a href="{{ route('auction.getAuctionList') }}">View auction list</a></li>
-                <li><a href="{{ route('orders.index') }}">My orders</a></li>
+                <li><a href="{{ route('orders.getOrders') }}">My orders</a></li>
             </ul>
         </nav>
     </div>

@@ -6,6 +6,8 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Enums\OrderStatus;
 use App\Models\BodyPartOffer;
+use App\Models\Delivery;
+use App\Enums\DeliveryState;
 use App\Http\Controllers\Controller;
 
 class OrderController extends Controller
@@ -41,11 +43,6 @@ class OrderController extends Controller
         return $order;
     }
 
-/**
- * Display a listing of client orders.
- *
- * @return \Illuminate\Http\Response
- */
     public function index()
     {
         $orders = Order::with('bodyPartOffer')
@@ -54,12 +51,7 @@ class OrderController extends Controller
         return view('Client.orders', compact('orders'));
     }
 
-/**
- * Display the specified order.
- *
- * @param  int  $id
- * @return \Illuminate\Http\Response
- */
+
     public function show($id)
     {
         $order = Order::with('bodyPartOffer.bodyPartType')
@@ -68,26 +60,25 @@ class OrderController extends Controller
         return view('Client.order', compact('order'));
     }
 
-/**
- * Confirm delivery of the order.
- *
- * @param  int  $id
- * @return \Illuminate\Http\Response
- */
-    public function confirmDelivery($id)
+
+    public function finishOrder($id)
     {
         $order = Order::findOrFail($id);
         
-        // Tikrinti ar užsakymas yra tinkamoje būsenoje
         if ($order->status !== OrderStatus::IN_DELIVERY) {
             return back()->with('error', 'Pristatymas gali būti patvirtintas tik kai užsakymas yra pristatymo būsenoje.');
         }
         
-        // Atnaujinti užsakymo būseną į užbaigtą
         $order->status = OrderStatus::COMPLETED;
         $order->save();
-        
-        return redirect()->route('orders.index')
-                        ->with('message', 'Pristatymas sėkmingai patvirtintas!');
+
+        MarkDeliveryDone($id);
+    }
+
+    public function MarkDeliveryDone($id)
+    {
+        $delivery = Delivery::findOrFail($id);
+        $delivery->state = DeliveryState::Delivered_Claimed;
+        $delivery->save();
     }
 }

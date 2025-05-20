@@ -159,7 +159,7 @@ class BodyPartController extends Controller
     
         BodyPartOffer::create($validated);
 
-        return redirect()->route('body_part.supplier_index')->with('message', 'Body part offer created successfully');
+        return redirect()->route('body_part.showBodyPartOffers')->with('message', 'Body part offer created successfully');
     }
     
     public function show($id)
